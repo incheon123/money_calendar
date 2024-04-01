@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+            integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer">
+    </script>
+    <title>share plan</title>
+    <style>
+        head, body{
+            width: 100%;
+            height: 100%;
+        }
+        p,input{
+            margin: 0;
+            padding: 0;
+        }
+        textarea{
+            resize: none;
+            width: 100%;
+            height: 50%;
+        }
+        .calendar{
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .date-box{
+            margin: 0;
+            padding: 0;
+        }
+
+        .main{
+            height: 120%;
+        }
+        .active{
+            background-color: lightpink;
+        }
+        .day{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+        }
+        .input-side{
+            width: 33%;
+        }
+        .blue{
+            color: blue;
+        }
+        .red{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="w-100 position-relative">
+    <div class="w-100 vh-100 position-absolute">
+        <!-- header -->
+        <div class=" px-0 border-bottom border-info border-3">
+            <ul class="nav d-flex justify-content-between">
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" aria-current="page" href="#">
+                        <h1>가계부</h1>
+                    </a>
+                </li>
+                <li>
+                    <th:block th:if="${member != null}">
+                        <a href="">[[${member}]]</a>
+                    </th:block>
+                    <a href="/" class="btn">마이페이지</a>
+                    <th:block th:if="${member != null}">
+                        <form class="mx-0" action="/money_management/logout" method="POST">
+                            <button class="btn logout mx-0" type="submit">로그아웃</button>
+                        </form>
+                    </th:block>
+                </li>
+            </ul>
+        </div>
+        <!-- main -->
+        <div class="main w-100 d-flex justify-content-between">
+            <!-- navigation -->
+            <div class="side h-100 border-3 border-end border-info text-center d-flex flex-column align-items-center">
+                <a href="index" class="my-5 btn">기록하기</a>
+                <a href="statistic" class="my-5 btn">통계</a>
+                <a href="lobby" class="my-5 btn">lobby</a>
+                <a href="" class="my-5 btn">1/n 계산</a>
+            </div>
+            <!-- main -->
+            <div class="w-100 h-100 d-flex">
+                <div class="w-100 h-100">
+                    <div>
+                        <div class="container bg-info d-flex justify-content-around align-items-center">
+                            <span class="d-flex justify-content-around align-items-center">
+                                <h1>제한 금액</h1>
+                                <h1 class="mx-2"> : </h1>
+                                <h3 class="limit-money"></h3>
+                                <h3>원</h3>
+                            </span>
+                            <span class="d-flex justify-content-around align-items-center">
+                                    <h1>수입 금액</h1>
+                                    <h1 class="mx-2"> : </h1>
+                                    <h3 class="income-money"></h3>
+                                    <h3>원</h3>
+                                </span>
+                            <span class="d-flex justify-content-around align-items-center">
+                                    <h1>지출 금액</h1>
+                                    <h1 class="mx-2"> : </h1>
+                                    <h3 class="outcome-money"></h3>
+                                    <h3>원</h3>
+                                </span>
+                        </div>
+                        <div class="container d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary pre-month">저번 달</button>
+                            <!-- 변수로 활용합시다 ex) 저번 달, 이번 달, 다음 달.....-->
+                            <h3>이번 달</h3>
+                            <button class="btn btn-primary next-month">다음 달</button>
+                        </div>
+                        <div class="container d-flex justify-content-center align-items-center">
+                            <h5 class="year" data-year=""></h5>
+                            <span class="mx-1"></span>
+                            <h5 class="month" data-month=""></h5>
+                        </div>
+                    </div>
+                    <!-- main => calendar   -->
+                    <div class="w-100 d-flex justify-content-around align-items-center">
+                        <h5 class="sun day">일</h5>
+                        <h5 class="mon day">월</h5>
+                        <h5 class="tue day">화</h5>
+                        <h5 class="wed day">수</h5>
+                        <h5 class="thu day">목</h5>
+                        <h5 class="fri day">금</h5>
+                        <h5 class="sat day">토</h5>
+                    </div>
+                    <!-- 달력 본체 -->
+                    <div class="calendar  w-100 h-75">
+
+                    </div>
+                </div>
+
+                <div class="h-75 border border-info input-side">
+
+                    <div class="tab-content h-50" id="myTabContent">
+                        <h4 class="setted-date" data-value=""></h4>
+
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <button class="nav-link active" id="display_historys" data-bs-toggle="tab" data-bs-target="#historys_container" type="button" role="tab" aria-controls="nav-home" aria-selected="true">지출기록</button>
+                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">기록하기</button>
+                        </div>
+
+
+                        <div class="tab-content history-form" id="nav-tabContent">
+                            <div class="tab-pane fade show active historys_container" id="historys_container" role="tabpanel" aria-labelledby="display_historys" tabindex="0">...</div>
+                            <div class="tab-pane fade h-75" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                                <!-- form tag -->
+                                <div class="w-100 h-100 input-groups bg-white">
+                                    <div class="d-flex justify-content-around">
+                                        <div>
+                                            <span>수입</span>
+                                            <input type="radio" name="type" value="income" class="input-radio" required checked>
+                                        </div>
+                                        <div>
+                                            <span>지출</span>
+                                            <input type="radio" name="type" value="outcome" class="input-radio" required>
+                                        </div>
+                                    </div>
+                                    <div class="w-100">
+                                        <p>얼마</p>
+                                        <input type="text" class="w-100 mx-0 px-0" name="input-money" required>
+                                    </div>
+                                    <div class="w-100 h-75">
+                                        <p>무엇을</p>
+                                        <textarea name="input-content" class="h-75" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary submit-content">작성하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div class="border-3 border-top border-info d-flex justify-content-center py-5">
+            <h5>연락 이메일</h5>
+            <h6>opportunity@naver.com</h6>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Alert!</h3>
+                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body needs-validation">
+                <label for="exampleInputEmail1">You should set a limit money</label>
+                <input type="text" class="form-control limit_money" name="money" id="validationFormCheck1" placeholder="limit money" required>
+                <div class="feedback"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal bg-danger border-danger" data-bs-dismiss="modal">No, thanks</button>
+                <button type="button" class="btn btn-primary modal-submit">submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+    if no limit money active this modal
+-->
+<script src="/js/side.js" type="module"></script>
+<script src="/js/calendar.js" type="module"></script>
+<script src="/js/date.js" type="module"></script>
+<script src="/js/getHistorys.js" type="module"></script>
+<script src="/js/general.js" type="module"></script>
+<script src="/js/modal.js" type="module"></script>
+</body>
+</html>
