@@ -2,6 +2,7 @@ package com.example.money_management.controller;
 
 import com.example.money_management.dto.MemberDTO;
 import com.example.money_management.entity.Member;
+import com.example.money_management.enumType.Role;
 import com.example.money_management.service.HistoryService;
 import com.example.money_management.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -87,14 +88,24 @@ public class LoginController {
     public String showRegisterPage(){
         return "register";
     }
+
+    /*
+        계정정보를 받아와 등록한다
+     */
     @PostMapping("/register")
-    public String register(){
-        return "redirect:/login";
+    public String register(MemberDTO memberDTO){
+        memberDTO.setRole(Role.MEMBER);
+
+        memberService.save(memberDTO);
+
+        return "redirect:/money_management/login";
     }
+
     @GetMapping("/findId")
     public String showFindIdPage(){
         return "findId";
     }
+
     @PostMapping("/findId")
     public @ResponseBody String findId(@RequestParam("email") String email){
         log.info("email은 " + email);
@@ -104,10 +115,12 @@ public class LoginController {
         if(result != null) return result;
         return "error";
     }
+
     @GetMapping("/findPw")
     public String showFindPwPage(){
         return "findPw";
     }
+
     @PostMapping("/findPw")
     public @ResponseBody String findPw(@RequestParam("id") String id, @RequestParam("email") String email){
 
