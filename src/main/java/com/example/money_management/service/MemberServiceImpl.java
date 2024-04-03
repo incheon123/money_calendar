@@ -45,4 +45,14 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findPw(id, email);
     }
 
+    /*
+        회원가입한 계정을 db에 등록
+     */
+    @Override
+    public void save(MemberDTO memberDTO) {
+        System.out.println(memberDTO);
+        Member member = dtoToEntity(memberDTO);
+        memberRepository.save(member);
+    }
+
 }
