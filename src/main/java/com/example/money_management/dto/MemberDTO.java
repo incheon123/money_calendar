@@ -23,6 +23,7 @@ public class MemberDTO {
 
     public MemberDTO(String id){
         this.id = id;
+        this.role = Role.MEMBER;
         currentRooms = new ArrayList<>();
     }
 }
