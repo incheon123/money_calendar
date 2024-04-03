@@ -9,4 +9,17 @@ public interface MemberService{
     String findIdByEmail(String email);
     String findPwByIdAndEmail(String id, String email);
 
+    void save(MemberDTO member);
+
+    default Member dtoToEntity(MemberDTO dto){
+        Member member = Member.builder()
+                .id(dto.getId())
+                .pw(dto.getPw())
+                .email(dto.getEmail())
+                .gender(dto.getGender())
+                .role(dto.getRole())
+                .build();
+
+        return member;
+    }
 }
