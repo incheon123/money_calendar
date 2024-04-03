@@ -37,7 +37,7 @@
     <div class="container position-absolute blur-container w-100"></div>
     <div class=" container position-absolute flex-column justify-content-between align-items-center inner-container">
         <h3 class="text-center mt-3">회원가입</h3>
-        <form class="container w-100" action="" method="POST">
+        <form class="container w-100" action="/money_management/register" method="POST">
             <div class="my-4">
                 <input type="text" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Id" name="id">
             </div>
@@ -48,8 +48,8 @@
                 <input type="email" class="form-control" aria-describedby="" placeholder="E-mail" name="email">
             </div>
             <div class="my-4 d-flex justify-content-start">
-                <label for="" style="margin-right: 5px;">남성</label><input type="radio" aria-describedby="" style="margin-right: 20px;" name="gender">
-                <label for="" style="margin-right: 5px;">여성</label><input type="radio" aria-describedby="" style="margin-right: 20px;" name="gender">
+                <label style="margin-right: 5px;">남성</label><input type="radio" aria-describedby="" style="margin-right: 20px;" name="gender" value="man">
+                <label style="margin-right: 5px;">여성</label><input type="radio" aria-describedby="" style="margin-right: 20px;" name="gender" value="woman">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary w-100">create</button>
