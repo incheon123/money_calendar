@@ -1,12 +1,13 @@
 package com.example.money_management.entity;
 
+import com.example.money_management.dto.RoomList;
 import com.example.money_management.enumType.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -18,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 public class Member extends TimeLog{
 
     @Id
+    @Column(name = "MEMBER_ID")
     private String id;
 
     private String pw;
@@ -28,4 +30,11 @@ public class Member extends TimeLog{
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany
+    @JoinColumn(name = "ROOM_ID")
+    private List<Room> currentRooms = new ArrayList<>();
+
+    @ManyToOne
+    private Room room;
 }
