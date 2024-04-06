@@ -8,9 +8,9 @@ import java.util.Date;
 @Entity
 public class ChatMessage {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
-    private long order;
+    private long seq;
 
     @ManyToOne
     private Member describer;
