@@ -31,10 +31,6 @@ public class Member extends TimeLog{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    @JoinColumn(name = "ROOM_ID")
+    @OneToMany(mappedBy = "rid")
     private List<Room> currentRooms = new ArrayList<>();
-
-    @ManyToOne
-    private Room room;
 }
