@@ -1,16 +1,19 @@
 package com.example.money_management.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
+@Getter
 public class Room {
     //방 아이디
     @Id
-    @Column(name = "ROOM_ID")
-    private long id;
+    @Column(name = "room_id")
+    private long rid;
 
     //방 제목
     @Column(name = "TITLE")
@@ -18,14 +21,16 @@ public class Room {
 
     //방장
 //    @Column(name = "CREATER")
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "CREATER_ID")
     @OneToOne
     private Member creater;
 
+
+
     //방 참여자
     @Column(name = "PARTICIPANTS")
-    @OneToMany(mappedBy = "room")
-    private List<Member> participants;
+    @OneToMany(mappedBy = "id")
+    private List<Member> participants = new ArrayList<>();
 
     @Column(name = "CHAT_LIST")
     @OneToMany(mappedBy = "room")
@@ -45,6 +50,6 @@ public class Room {
     private String password;
 
     public void generateId(){
-        this.id = ThreadLocalRandom.current() .nextLong(4, Long.MAX_VALUE);
+        this.rid = ThreadLocalRandom.current() .nextLong(4, Long.MAX_VALUE);
     }
 }
