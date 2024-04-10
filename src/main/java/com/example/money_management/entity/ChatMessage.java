@@ -12,9 +12,11 @@ public class ChatMessage {
     private Long id;
     private long seq;
 
+    @JoinColumn(name = "describer")
     @ManyToOne
     private Member describer;
 
+    @JoinColumn(name = "room_id")
     @ManyToOne
     private Room room;
 

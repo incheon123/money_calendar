@@ -34,7 +34,7 @@ public class Room {
 
     @Column(name = "CHAT_LIST")
     @OneToMany(mappedBy = "room")
-    private List<ChatMessage> chatList;
+    private List<ChatMessage> chatList = new ArrayList<>();
 
     //최대인원
     @Column(name = "MAX_CAPACITY")
