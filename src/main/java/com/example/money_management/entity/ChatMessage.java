@@ -10,11 +10,10 @@ public class ChatMessage {
 
     @Id @GeneratedValue
     private Long id;
-    private long seq;
 
-    @JoinColumn(name = "describer")
+    @JoinColumn(name = "member_id")
     @ManyToOne
-    private Member describer;
+    private Member sender;
 
     @JoinColumn(name = "room_id")
     @ManyToOne
