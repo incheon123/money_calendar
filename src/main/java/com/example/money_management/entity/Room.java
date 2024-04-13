@@ -13,7 +13,7 @@ public class Room {
     //방 아이디
     @Id
     @Column(name = "room_id")
-    private long rid;
+    private Long rid;
 
     //방 제목
     @Column(name = "TITLE")
@@ -25,12 +25,14 @@ public class Room {
     @OneToOne
     private Member creater;
 
-
+    //방
+    @OneToMany(mappedBy = "room")
+    private List<RoomHistory> roomHistories = new ArrayList<>();
 
     //방 참여자
-    @Column(name = "PARTICIPANTS")
-    @OneToMany(mappedBy = "id")
-    private List<Member> participants = new ArrayList<>();
+//    @Column(name = "PARTICIPANTS")
+//    @OneToMany(mappedBy = "id")
+//    private List<Member> participants = new ArrayList<>();
 
     @Column(name = "CHAT_LIST")
     @OneToMany(mappedBy = "room")
