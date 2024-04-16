@@ -1,6 +1,7 @@
 package com.example.money_management.repository;
 
 import com.example.money_management.entity.Member;
+import com.example.money_management.enumType.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,10 +15,11 @@ public class MemberRepositoryTest {
     @Test
     public void saveTest(){
         Member member = Member.builder()
-                .id("opportunity13")
-                .pw("rlghlek153")
-                .email("opportunity13@naver.com")
-                .gender("man")
+                .id("cola2")
+                .pw("123")
+                .email("hong13@naver.com")
+                .gender("woman")
+                .role(Role.MEMBER)
                 .build();
 
 

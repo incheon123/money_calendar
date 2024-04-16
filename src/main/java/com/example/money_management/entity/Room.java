@@ -1,14 +1,23 @@
 package com.example.money_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Log4j2
+@ToString(exclude = {"chatList"})
+@Builder
 public class Room {
     //방 아이디
     @Id
@@ -19,23 +28,13 @@ public class Room {
     @Column(name = "TITLE")
     private String title;
 
-    //방장
-//    @Column(name = "CREATER")
-    @JoinColumn(name = "CREATER_ID")
-    @OneToOne
-    private Member creater;
-
     //방
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<RoomHistory> roomHistories = new ArrayList<>();
 
-    //방 참여자
-//    @Column(name = "PARTICIPANTS")
-//    @OneToMany(mappedBy = "id")
-//    private List<Member> participants = new ArrayList<>();
-
     @Column(name = "CHAT_LIST")
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
     private List<ChatMessage> chatList = new ArrayList<>();
 
     //최대인원

@@ -15,11 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Log4j2
-@ToString
+@ToString(exclude = {"currentRooms"})
 public class Member extends TimeLog{
 
     @Id
-    @Column(name = "MEMBER_ID")
+    @Column(name = "member_id")
     private String id;
 
     private String pw;
@@ -31,6 +31,6 @@ public class Member extends TimeLog{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "rid")
-    private List<Room> currentRooms = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<RoomHistory> currentRooms = new ArrayList<>();
 }

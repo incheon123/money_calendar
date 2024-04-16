@@ -1,24 +1,21 @@
 package com.example.money_management.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
-import java.util.Objects;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class RoomHistoryId implements Serializable {
-    private String room;
-    private String member;
 
-    public RoomHistoryId(){}
+    @EqualsAndHashCode.Include
+    private Room room;
+    @EqualsAndHashCode.Include
+    private Member member;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RoomHistoryId that = (RoomHistoryId) o;
-        return Objects.equals(room, that.room) && Objects.equals(member, that.member);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(room, member);
-    }
 }
