@@ -25,24 +25,12 @@ function closeModal(){
     })
 }
 
-
 /**
- * 방 제목, 방 인원, 방 비밀번호에 대해서 체크한다
- * @returns {boolean}
+ * .modal-submit 클래스에 click event 부여
  */
-// function validate(){
-//     console.log("validate............");
-//     //방 제목
-//     isString(roomName.value);
-//     if(isEmpty(roomName))                        return false;
-//     if(!isIncludeSpecialCharacter(roomName))     return false;
-//     if(!isBetween(roomName.value, 3, 20)) return false;
-//
-//     //방 인원
-//
-//
-//     return true;
-// }
+$('.modal-submit').click(function(){
+    
+})
 
 function main(){
     $('.create-room').click( () => openModal())
