@@ -38,6 +38,9 @@ public class LobbyController {
     @Autowired
     private RoomHistoryRepository roomHistoryRepository;
 
+    /*
+     * 방생성 컨트롤러 메서드
+     */
     @PostMapping("/create/room")
     public String createRoom(Room room){
         log.info("createRoom.................. " + httpSession.getAttribute("member"));
