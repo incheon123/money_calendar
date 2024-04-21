@@ -14,7 +14,7 @@ import java.util.Date;
 @IdClass(RoomHistoryId.class)
 @ToString(exclude = {"room", "member"})
 @Getter
-public class RoomHistory {
+public class RoomHistory extends TimeLog{
 
     @Id
     @ManyToOne
@@ -26,6 +26,6 @@ public class RoomHistory {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
     private boolean isCreater;
-    private Date joinDate;
 }
