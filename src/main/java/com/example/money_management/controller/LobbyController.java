@@ -1,8 +1,13 @@
 package com.example.money_management.controller;
 
 import com.example.money_management.dto.MemberDTO;
-import com.example.money_management.dto.Room;
 import com.example.money_management.dto.RoomList;
+import com.example.money_management.entity.Member;
+import com.example.money_management.entity.Room;
+import com.example.money_management.entity.RoomHistory;
+import com.example.money_management.repository.MemberRepository;
+import com.example.money_management.repository.RoomHistoryRepository;
+import com.example.money_management.repository.RoomRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 @Controller
 @Log4j2
 @RequestMapping("/money_management")
@@ -29,6 +29,15 @@ public class LobbyController {
     @Autowired
     private RoomList roomList;
 
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private RoomHistoryRepository roomHistoryRepository;
+
     @PostMapping("/create/room")
     public String createRoom(Room room){
         log.info("createRoom.................. " + httpSession.getAttribute("member"));
@@ -36,13 +45,21 @@ public class LobbyController {
         if(id == null) return "redirect:/money_management/login";
 
         //create
-        room.setCreater(new MemberDTO(id));
         room.generateId();
+        Room savedRoom = roomRepository.save(room);
+        Member member = memberRepository.getReferenceById(id);
 
 
-        roomList.add(room);
+        RoomHistory roomHistory = RoomHistory.builder()
+                .room(savedRoom)
+                .member(member)
+                .isCreater(true) //true인 이유는 지금 이 메서드가 방 만드는 메서드기 때문
+                .build();
 
-        return "redirect:/money_management/room/" + room.getId();
+        roomHistoryRepository.save(roomHistory);
+
+
+        return "redirect:/money_management/room/룸unique값";
     }
 
 
