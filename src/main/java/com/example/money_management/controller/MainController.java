@@ -93,6 +93,7 @@ public class MainController {
         String id = (String)httpSession.getAttribute("member");
         if(id == null) return "redirect:/money_management/login";
 
+        //RoomList 객체의 list를 불러와서 모델에 저장한다
         model.addAttribute(roomList.getRoomList());
 
         return "lobby";
