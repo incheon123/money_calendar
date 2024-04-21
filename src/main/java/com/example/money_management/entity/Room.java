@@ -18,7 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Log4j2
 @ToString(exclude = {"chatList"})
 @Builder
-public class Room {
+@Setter
+public class Room extends TimeLog{
     //방 아이디
     @Id
     @Column(name = "room_id")
