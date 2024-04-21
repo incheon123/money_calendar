@@ -29,18 +29,37 @@ function closeModal(){
  * .modal-submit 클래스에 click event 부여
  */
 $('.modal-submit').click(function(){
-    
+
+    if(roomName.value == null || roomName.value == '') {
+        return false;
+    }
+    if(!(roomName.value.length >= 3 && roomName.value.length <= 20)) {
+        return false;
+    }
+    if(!(/^[0-9]+$/.test(memberNum.value))) {
+        return false;
+    }
+    if(!Number(memberNum.value) >= 1 && Number(memberNum.value) <= 10) {
+        return false;
+    }
+    if(!roomPwCheckBox.checked){
+        if(pw.value == null || pw.value == ''){
+            return false;
+        }
+    }
+    if(!pw.value.length >= 8 && pw.value.length <= 20) {
+        return false;
+    }
+
 })
 
 function main(){
     $('.create-room').click( () => openModal())
     $(btnCloseModal).click( () => closeModal() );
-    $(form).submit( () => {
-        console.log('submit');
-        closeModal();
-    } );
+
     $(roomPwCheckBox).click( () => {
         if(roomPwCheckBox.checked){
+            console.log("clicked")
             $(pw).attr('disabled', 'disabled')
             $(pw).val(' ');
         }else{
