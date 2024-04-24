@@ -34,7 +34,7 @@ public class RoomList {
     //hashMap으로 변경할 것
     public Room getRoom(long rid){
         for(Room room : roomList){
-            if(room.getId() == rid){
+            if(room.getRid() == rid){
                 return room;
             }
         }
