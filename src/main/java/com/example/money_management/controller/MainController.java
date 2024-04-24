@@ -4,9 +4,12 @@ import com.example.money_management.dto.HistoryDTO;
 import com.example.money_management.dto.LimitMoneyDTO;
 import com.example.money_management.dto.RoomList;
 import com.example.money_management.entity.LimitMoney;
+import com.example.money_management.entity.Room;
+import com.example.money_management.repository.RoomRepository;
 import com.example.money_management.service.HistoryService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -31,6 +35,9 @@ public class MainController {
 
     @Autowired
     private RoomList roomList;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @GetMapping("/index")
     public String showMainPage(@SessionAttribute(value = "member", required = false) String member, Model model){
@@ -93,8 +100,9 @@ public class MainController {
         String id = (String)httpSession.getAttribute("member");
         if(id == null) return "redirect:/money_management/login";
 
-        //RoomList 객체의 list를 불러와서 모델에 저장한다
-        model.addAttribute(roomList.getRoomList());
+        // 채팅방 목록 가져오기
+        List<Room> room = roomRepository.findAll();
+        log.info(room);
 
         return "lobby";
     }
