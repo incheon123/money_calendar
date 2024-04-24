@@ -19,6 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @ToString(exclude = {"chatList"})
 @Builder
 @Setter
+@Getter
 public class Room extends TimeLog{
     //방 아이디
     @Id
@@ -42,6 +43,9 @@ public class Room extends TimeLog{
     @Column(name = "MAX_CAPACITY")
     private int maxCapacity;
 
+    @Column(name = "current_people_count")
+    private int currentPeopleCount;
+
     //비밀번호여부
     @Column(name = "IS_SET_PW")
     private boolean isSetPw;
@@ -52,6 +56,13 @@ public class Room extends TimeLog{
     private String password;
 
     public void generateId(){
-        this.rid = ThreadLocalRandom.current() .nextLong(4, Long.MAX_VALUE);
+        this.rid = ThreadLocalRandom.current().nextLong(4, Long.MAX_VALUE);
+    }
+
+    @PrePersist
+    public void init(){
+        this.currentPeopleCount = 1;
+        generateId();
+        if(password != null) isSetPw = true;
     }
 }
