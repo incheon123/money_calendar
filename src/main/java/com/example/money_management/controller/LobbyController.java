@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.UnsupportedEncodingException;
+
+
 @Controller
 @Log4j2
 @RequestMapping("/money_management")
@@ -47,12 +49,10 @@ public class LobbyController {
         String id = (String)httpSession.getAttribute("member");
         if(id == null) return "redirect:/money_management/login";
 
+
         //create
-        room.generateId();
         Room savedRoom = roomRepository.save(room);
         Member member = memberRepository.getReferenceById(id);
-
-
         RoomHistory roomHistory = RoomHistory.builder()
                 .room(savedRoom)
                 .member(member)
@@ -62,7 +62,7 @@ public class LobbyController {
         roomHistoryRepository.save(roomHistory);
 
 
-        return "redirect:/money_management/room/룸unique값";
+        return "redirect:/money_management/room/"+room.getRid();
     }
 
 
@@ -70,7 +70,9 @@ public class LobbyController {
     @GetMapping("/room/{id}")
     public String test(@PathVariable("id") String id) throws UnsupportedEncodingException {
         long rid = (long)Long.parseLong(id);
-        log.info(roomList.getRoom(rid));
+        log.info("rid => " + rid);
+
+        
 
         return "room";
     }
