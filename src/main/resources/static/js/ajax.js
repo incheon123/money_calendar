@@ -30,7 +30,9 @@ export function getHistory(){
                 url: '/money_management/get/historys',
                 cache: false,
                 type: 'post',
-                data: JSON.stringify({
+                //아이디와 개인방인지 멀티방인지 구분할 수 있는 유니크 값을 같이 보내야 한다
+                //만약 년/월/일만 보내면 개인, 멀티 구분없이 모든 데이터를 다 가져오는 버그 발생
+                data: JSON.stringify({ 
                     year: current_date[0],
                     month: current_date[1],
                     date: current_date[2]

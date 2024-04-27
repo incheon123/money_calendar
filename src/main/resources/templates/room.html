@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -98,7 +98,9 @@
                 <a href="" class="my-5 btn">1/n 계산</a>
             </div>
             <!-- main frame -->
+            <div th:replace="layout/calendar::calendar">
 
+            </div>
         </div>
         <!-- footer -->
         <div class="border-3 border-top border-info d-flex justify-content-center py-5">
@@ -107,6 +109,17 @@
         </div>
     </div>
 </div>
-<script src="/js/lobby.js" type="module"></script>
+<div th:replace="layout/modal::modal"></div>
+
+
+<th:block>
+    <script src="/js/lobby.js" type="module"></script>
+    <th:block th:replace="layout/scripts::sideJs"></th:block>
+    <th:block th:replace="layout/scripts::calendarJs"></th:block>
+    <th:block th:replace="layout/scripts::dateJs"></th:block>
+    <th:block th:replace="layout/scripts::getHistorysJs"></th:block>
+    <th:block th:replace="layout/scripts::generalJs"></th:block>
+    <th:block th:replace="layout/scripts::modalJs"></th:block>
+</th:block>
 </body>
 </html>

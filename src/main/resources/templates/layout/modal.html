@@ -1,0 +1,19 @@
+<div th:fragment="modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Alert!</h3>
+                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body needs-validation">
+                <label for="exampleInputEmail1">You should set a limit money</label>
+                <input type="text" class="form-control limit_money" name="money" id="validationFormCheck1" placeholder="limit money" required>
+                <div class="feedback"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal bg-danger border-danger" data-bs-dismiss="modal">No, thanks</button>
+                <button type="button" class="btn btn-primary modal-submit">submit</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -93,17 +93,5 @@ public class MainController {
 
         return "share_plan";
     }
-
-    @GetMapping("/lobby")
-    public String showLobby(Model model){
-        log.info("lobby.......................");
-        String id = (String)httpSession.getAttribute("member");
-        if(id == null) return "redirect:/money_management/login";
-
-        // 채팅방 목록 가져오기
-        List<Room> room = roomRepository.findAll();
-        log.info(room);
-
-        return "lobby";
-    }
+    
 }

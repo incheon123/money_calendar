@@ -12,12 +12,14 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 
 @Controller
@@ -39,6 +41,21 @@ public class LobbyController {
 
     @Autowired
     private RoomHistoryRepository roomHistoryRepository;
+
+    @GetMapping("/lobby")
+    public String showLobby(Model model){
+        log.info("lobby.......................");
+        String id = (String)httpSession.getAttribute("member");
+        if(id == null) return "redirect:/money_management/login";
+
+        // 채팅방 목록 가져오기
+        List<Room> room = roomRepository.findAll();
+        log.info(room);
+
+        model.addAttribute("model", room);
+
+        return "lobby";
+    }
 
     /*
      * 방생성 컨트롤러 메서드

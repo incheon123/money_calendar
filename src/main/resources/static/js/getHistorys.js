@@ -130,7 +130,7 @@ function getOutcome(){
  * history를 가져오고, history 지출 기록을 표시한다<br>
  */
 function bindClickEventOnElementWhichIsActualDate() {
-    getHistory();
+    // getHistory();
     bindClickEventOnElement('.actualDate', function (e) {
 
         getLimitMoney().then(
