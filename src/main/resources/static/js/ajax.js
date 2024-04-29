@@ -17,7 +17,7 @@ export function updateHistorys(requestObject){
         }
     })
 }
-export function getHistory(){
+export function getHistory(roomType){
     console.log('getHistory.........');
 
     let result = getLimitMoney();
@@ -35,7 +35,8 @@ export function getHistory(){
                 data: JSON.stringify({ 
                     year: current_date[0],
                     month: current_date[1],
-                    date: current_date[2]
+                    date: current_date[2],
+                    roomType: roomType
                 }),
                 dataType: 'json',
                 contentType: 'application/json',
