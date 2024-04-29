@@ -129,8 +129,8 @@ function getOutcome(){
  * <p>저번달/다음달 버튼을 눌렀을 때 처음 화면에 들어왔을 때 실행되는 함수</p>
  * history를 가져오고, history 지출 기록을 표시한다<br>
  */
-function bindClickEventOnElementWhichIsActualDate() {
-    // getHistory();
+function bindClickEventOnElementWhichIsActualDate(roomType) {
+    getHistory(roomType);
     bindClickEventOnElement('.actualDate', function (e) {
 
         getLimitMoney().then(
@@ -155,25 +155,25 @@ function bindClickEventOnElementWhichIsActualDate() {
  * 또 다른 하나는 달력을 클릭하면 bindClickEventOnElementWhichIsActualDate 함수를 호출한다.<br>
  * @param ele
  */
-function bindClickEventOnElementWhichIsPreOrNextBtn(ele){
-    bindClickEventOnElement(ele, function(e){
-        if(ele === '.pre-month') setDateToPreMonth();
-        else setDateToNextMonth();
+// function bindClickEventOnElementWhichIsPreOrNextBtn(ele){
+//     bindClickEventOnElement(ele, function(e){
+//         if(ele === '.pre-month') setDateToPreMonth();
+//         else setDateToNextMonth();
 
-        getLimitMoney().then(
-            function(success){
-            },
-            function(error){
-                emptyMoney();
-                empty($('.input-groups'))
-                activeModal();
-            }
-        )
+//         getLimitMoney().then(
+//             function(success){
+//             },
+//             function(error){
+//                 emptyMoney();
+//                 empty($('.input-groups'))
+//                 activeModal();
+//             }
+//         )
 
-        empty($(".historys_container"));
-        bindClickEventOnElementWhichIsActualDate();
-    })
-}
+//         empty($(".historys_container"));
+//         bindClickEventOnElementWhichIsActualDate();
+//     })
+// }
 
 /**
  * 제한 금액 요소에 값을 집어넣는다<br>
@@ -204,8 +204,8 @@ function bindDynamicalClickEventOnElement(types, selector, event) {
 function main(){
     bindClickEventOnElementWhichIsActualDate();
 
-    bindClickEventOnElementWhichIsPreOrNextBtn('.pre-month');
-    bindClickEventOnElementWhichIsPreOrNextBtn('.next-month');
+    // bindClickEventOnElementWhichIsPreOrNextBtn('.pre-month');
+    // bindClickEventOnElementWhichIsPreOrNextBtn('.next-month');
 
     bindDynamicalClickEventOnElement('click', '.modify-historys', function (e) {
         let obj = getHistoryInfoWhenClickSubmitBtn(e);
