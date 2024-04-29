@@ -36,7 +36,7 @@ public class HistoryController {
 
         String id = (String) httpSession.getAttribute("member");
         System.out.println(id);
-        Calendar c = Calendar.getInstance();
+
         List<HistoryDTO> result = historyService.getHistory(id, dto.getYear(), dto.getMonth());
 //        List<HistoryDTO> result = historyService.getHistory(id, c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1);
 
