@@ -20,4 +20,6 @@ public class HistoryDTO {
     private int money;
     private String content;
     private String type;
+    private long room_id;
+    private String roomType;
 }
