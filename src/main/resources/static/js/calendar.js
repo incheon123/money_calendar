@@ -17,9 +17,21 @@ const COLUMN = 6
 //켈린더 엘리먼트에 들어갈 div
 const DATE_BLOCK_WIDTH = Number(CAL_WIDTH.replace('px', ''));
 const DATE_BLOCK_HEIGHT = Number(CAL_HEIGHT.replace('px', ''));
+
+//달력 상단에 있는 세 개의 금액, 제한금액 소득금액 지출금액
+const LIMIT_MONEY = document.getElementsByClassName("limit-money")[0];
+const INCOME_MONEY = document.getElementsByClassName("income-money")[0]
+const OUTCOME_MONEY = document.getElementsByClassName("outcome-money")[0];
+
 //날짜
 let date = new Date();
 
+
+export function emptyMoney(){
+    LIMIT_MONEY.innerText = "미정"
+    INCOME_MONEY.innerText = "미정"
+    OUTCOME_MONEY.innerText = "미정"
+}
 
 
 export function getCurrentDate(){
