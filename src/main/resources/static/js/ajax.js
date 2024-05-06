@@ -1,8 +1,7 @@
 import {empty, emptyActualDate, updateHistoryContainer} from "./module.js";
 import {insertHistorys, insertHistoryToCalendar, setLimitMoney} from "./getHistorys.js";
-import {getCurrentDate} from "./calendar.js";
+import {getCurrentDate, bindClickEventOnElement, emptyMoney} from "./calendar.js";
 import {activeModal, closeModal} from "./modal.js";
-
 /**
  * 특정 날짜의 내용을 수정하면 실행
  * @param requestObject
@@ -25,7 +24,7 @@ export function updateHistorys(requestObject){
 }
 export function getHistory(rType){
     console.log(rType);
-    console.log('getHistory.........');
+    console.log('ajax.js - getHistory.........');
 
     let result = getLimitMoney();
 
@@ -51,6 +50,19 @@ export function getHistory(rType){
                     emptyActualDate();
                     insertHistorys(e);
                     insertHistoryToCalendar(e);
+                    bindClickEventOnElement('.actualDate', function (e) {
+                        console.log(roomType);
+                        console.log("날짜 클릭")
+                            
+                        let target_date = e.currentTarget.attributes.value.value;
+                        let obj = dates_obj[target_date];
+                        if (obj !== undefined) {
+                            getSelectedDate(obj);
+                        }else {
+                            // empty(document.getElementsByClassName("historys_container")[0]);
+                            dates_obj = {};
+                        }
+                    })
                 }
             })
         },
@@ -110,12 +122,11 @@ export function saveLimitMoney(money){
                 limit_money: money
             }),
             success: function (e) {
-                console.log(e);
                 closeModal();
                 getHistory();
             },
             error: function (e) {
-                console.log(e);
+                console.log('error');
             }
         })
     }else{
@@ -140,15 +151,15 @@ export function findLimitMoney(success, error){
         success: function (e) {
             if(e[0] !== null){
                 success();
-                console.log(e);
                 setLimitMoney(e);
             }else{
-                console.log(e);
+                activeModal();
                 error();
+                emptyMoney();
+                empty($('.input-groups'))
             }
         },
         error: function(e){
-            console.log(e);
             error();
         }
     })
