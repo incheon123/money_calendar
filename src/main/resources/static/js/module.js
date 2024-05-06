@@ -1,6 +1,6 @@
 import { bindClickEventOnElement } from "./calendar.js";
 import {setDateToNextMonth, setDateToPreMonth} from "./date.js";
-import { getLimitMoney } from "./ajax.js";
+import { getHistory, getLimitMoney } from "./ajax.js";
 import { activeModal } from "./modal.js";
 import { bindClickEventOnElementWhichIsActualDate } from "./getHistorys.js";
 
