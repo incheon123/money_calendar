@@ -1,8 +1,6 @@
 import { bindClickEventOnElement } from "./calendar.js";
-import {setDateToNextMonth, setDateToPreMonth} from "./date.js";
-import { getHistory, getLimitMoney } from "./ajax.js";
-import { activeModal } from "./modal.js";
-import { bindClickEventOnElementWhichIsActualDate } from "./getHistorys.js";
+import {setCalendarTitleDate} from "./date.js";
+import { initCalendar } from "./getHistorys.js";
 
 
 /**
@@ -83,22 +81,9 @@ export function createHistoryForm(idx, y,m,d,content_no, money, content, type){
 
 export function emptyActualDate(){
     $('.money').remove();
-
-    // let len = actualDate.length;
-    //
-    // for(let i = 0; i < len; i++){
-    //     actualDate[i].innerHTML = "";
-    // }
 }
-const LIMIT_MONEY = document.getElementsByClassName("limit-money")[0];
-const INCOME_MONEY = document.getElementsByClassName("income-money")[0]
-const OUTCOME_MONEY = document.getElementsByClassName("outcome-money")[0];
 
-export function emptyMoney(){
-    LIMIT_MONEY.innerText = "미정"
-    INCOME_MONEY.innerText = "미정"
-    OUTCOME_MONEY.innerText = "미정"
-}
+
 export function empty(ele){
     ele.empty();
     ele.innerHTML = " ";
@@ -130,26 +115,23 @@ export function getSelectedDate(myHistory){
 function bindClickEvent(ele, type){
     bindClickEventOnElement(ele, function(e){
         console.log("index" + " " + type)
+
         //달력의 날짜를 설정
-        if(ele === '.pre-month') setDateToPreMonth();
-        else setDateToNextMonth();
+        setCalendarTitleDate(ele);
 
         //각 달의 제한된 금액이 설정되어 있지 않다면 function(error) 실행
-        getLimitMoney().then(
-            function(success){
-            },
-            function(error){
-                emptyMoney();
-                empty($('.input-groups'))
-                activeModal();
-            }
-        )
-
-        //기존 달력 내용 지움
-        empty($(".historys_container"));
+        // getLimitMoney().then(
+        //     function(success){
+        //     },
+        //     function(error){
+        //         emptyMoney();
+        //         empty($('.input-groups'))
+        //         activeModal();
+        //     }
+        // )
 
         //처음 들어온 화면에서는 저번 달, 다음 달 버튼이 안눌려있어서 type이 적용안된다.
-        bindClickEventOnElementWhichIsActualDate(type);
+        initCalendar(type);
     })
 }
 
