@@ -3,7 +3,12 @@ import {insertHistorys, insertHistoryToCalendar, setLimitMoney} from "./getHisto
 import {getCurrentDate} from "./calendar.js";
 import {activeModal, closeModal} from "./modal.js";
 
+/**
+ * 특정 날짜의 내용을 수정하면 실행
+ * @param requestObject
+ */
 export function updateHistorys(requestObject){
+    console.log("updateHistorys......")
     $.ajax({
         url: '/money_management/update/historys',
         cache: false,
@@ -12,12 +17,14 @@ export function updateHistorys(requestObject){
         dataType: 'json',
         contentType: 'application/json',
         success: function (e) {
+            // new History().clear();
             empty($(document.getElementsByClassName("historys_container")[0]));
             getHistory();
         }
     })
 }
-export function getHistory(roomType){
+export function getHistory(rType){
+    console.log(rType);
     console.log('getHistory.........');
 
     let result = getLimitMoney();
@@ -36,7 +43,7 @@ export function getHistory(roomType){
                     year: current_date[0],
                     month: current_date[1],
                     date: current_date[2],
-                    roomType: roomType
+                    roomType: rType
                 }),
                 dataType: 'json',
                 contentType: 'application/json',
@@ -74,6 +81,7 @@ export function deleteHistorys(obj, deletedInputForm){
     })
 }
 export function saveHistorys(history){
+    console.log("saveHistorys........")
     $.ajax({
         url: '/money_management/save',
         cache: false,

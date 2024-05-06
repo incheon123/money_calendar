@@ -2,9 +2,7 @@ import {bindClickEventOnElement} from "./calendar.js";
 import {emptyMoney, getHistoryInfoWhenClickSubmitBtn, getSelectedDate} from "./module.js";
 import {empty} from "./module.js";
 import {getHistory, updateHistorys, deleteHistorys, saveHistorys, getLimitMoney} from "./ajax.js";
-import {setDateToNextMonth, setDateToPreMonth} from "./date.js";
-import {History} from "./general.js";
-import {activeModal} from "./modal.js";
+import {History} from "./history.js";
 
 const DATES = document.getElementsByClassName('actualDate');
 
@@ -129,10 +127,12 @@ function getOutcome(){
  * <p>저번달/다음달 버튼을 눌렀을 때 처음 화면에 들어왔을 때 실행되는 함수</p>
  * history를 가져오고, history 지출 기록을 표시한다<br>
  */
-function bindClickEventOnElementWhichIsActualDate(roomType) {
+export function bindClickEventOnElementWhichIsActualDate(roomType) {
     getHistory(roomType);
     bindClickEventOnElement('.actualDate', function (e) {
 
+        console.log(roomType);
+        console.log("날짜 클릭")
         getLimitMoney().then(
             function(success){
                 let target_date = e.currentTarget.attributes.value.value;
@@ -140,7 +140,7 @@ function bindClickEventOnElementWhichIsActualDate(roomType) {
                 if (obj !== undefined) {
                     getSelectedDate(obj);
                 }else {
-                    empty(document.getElementsByClassName("historys_container")[0]);
+                    // empty(document.getElementsByClassName("historys_container")[0]);
                 }
             },
             function(error){dates_obj = {};}
@@ -149,31 +149,6 @@ function bindClickEventOnElementWhichIsActualDate(roomType) {
     })
 }
 
-/**
- * 저번 달/다음 달 버튼에 이벤트를 부여한다<br>
- * 하나는 달력 내용(history)를 비운다<br>
- * 또 다른 하나는 달력을 클릭하면 bindClickEventOnElementWhichIsActualDate 함수를 호출한다.<br>
- * @param ele
- */
-// function bindClickEventOnElementWhichIsPreOrNextBtn(ele){
-//     bindClickEventOnElement(ele, function(e){
-//         if(ele === '.pre-month') setDateToPreMonth();
-//         else setDateToNextMonth();
-
-//         getLimitMoney().then(
-//             function(success){
-//             },
-//             function(error){
-//                 emptyMoney();
-//                 empty($('.input-groups'))
-//                 activeModal();
-//             }
-//         )
-
-//         empty($(".historys_container"));
-//         bindClickEventOnElementWhichIsActualDate();
-//     })
-// }
 
 /**
  * 제한 금액 요소에 값을 집어넣는다<br>
@@ -198,15 +173,22 @@ export function setLimitMoney(lm){
 function bindDynamicalClickEventOnElement(types, selector, event) {
     $(document).on(types, selector, event);
 }
+
+
+
+
+
+
 /**
- * 메인함수다
+ * 메인함수
  */
 function main(){
     bindClickEventOnElementWhichIsActualDate();
 
-    // bindClickEventOnElementWhichIsPreOrNextBtn('.pre-month');
-    // bindClickEventOnElementWhichIsPreOrNextBtn('.next-month');
-
+    /**
+     * 수정버튼을 클릭시 수정 요청을 보냄
+     * private랑 chatting방 분리해야됨
+     */
     bindDynamicalClickEventOnElement('click', '.modify-historys', function (e) {
         let obj = getHistoryInfoWhenClickSubmitBtn(e);
 
@@ -219,18 +201,22 @@ function main(){
         deleteHistorys(obj, e);
     })
 
+    /**
+     * 저장버튼을 클릭하면 저장요청을 보냄
+     * private랑 chatting방 분리해야됨
+     */
     bindClickEventOnElement('.submit-content', () => {
 
         let history = new History();
 
-        let result = history.checkValidate();
-
+        let result = history.checkValidate(); //알맞은 금액과 내용일 때 true, 아니면 false
 
         if(result.result === true) {
             saveHistorys(history);
         }else{
             alert(result.err)
         }
+
     })
 }
 

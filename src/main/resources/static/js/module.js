@@ -1,3 +1,9 @@
+import { bindClickEventOnElement } from "./calendar.js";
+import {setDateToNextMonth, setDateToPreMonth} from "./date.js";
+import { getLimitMoney } from "./ajax.js";
+import { activeModal } from "./modal.js";
+import { bindClickEventOnElementWhichIsActualDate } from "./getHistorys.js";
+
 
 /**
  * 수정하기 버튼, 삭제하기을 누르면 실행된다
@@ -103,6 +109,7 @@ export function updateHistoryContainer(e) {
 }
 
 export function getSelectedDate(myHistory){
+    console.log("날짜 클릭")
     empty($(container));
 
     for(let i = 0 ; i < myHistory.length; i++){
@@ -120,3 +127,35 @@ export function getSelectedDate(myHistory){
     }
 }
 
+function bindClickEvent(ele, type){
+    bindClickEventOnElement(ele, function(e){
+        console.log("index" + " " + type)
+        //달력의 날짜를 설정
+        if(ele === '.pre-month') setDateToPreMonth();
+        else setDateToNextMonth();
+
+        //각 달의 제한된 금액이 설정되어 있지 않다면 function(error) 실행
+        getLimitMoney().then(
+            function(success){
+            },
+            function(error){
+                emptyMoney();
+                empty($('.input-groups'))
+                activeModal();
+            }
+        )
+
+        //기존 달력 내용 지움
+        empty($(".historys_container"));
+
+        //처음 들어온 화면에서는 저번 달, 다음 달 버튼이 안눌려있어서 type이 적용안된다.
+        bindClickEventOnElementWhichIsActualDate(type);
+    })
+}
+
+export function clickPrevNextBtn(ele){
+    bindClickEvent(ele, "PRIVATE")
+}
+export function clickPrevNextBtnChatting(ele){
+    bindClickEvent(ele, "CHATTING")
+}

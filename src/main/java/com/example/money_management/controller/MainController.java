@@ -56,30 +56,6 @@ public class MainController {
         return "statistic";
     }
 
-    @ResponseBody
-    @PostMapping("/save")
-    public String[] save(@RequestBody HistoryDTO dto){ //HashMap<String, Object> map
-        log.info("save.......... ");
-
-
-        String id = (String) httpSession.getAttribute("member");
-        System.out.println(dto);
-        Integer content_no = historyService.getTotalCount(id, dto.getYear(), dto.getMonth(), dto.getDate());
-
-        if(content_no == null) content_no = 0;
-        else content_no++;
-
-        dto.setId(id);
-        dto.setContent_no(content_no);
-
-        System.out.println("==================");
-        System.out.println(dto);
-
-        historyService.saveHistory(dto);
-
-        return new String[]{"success"};
-    }
-
     @PostMapping("save/limit_money")
     public @ResponseBody Boolean render(@RequestBody LimitMoneyDTO map){
         map.setId((String)httpSession.getAttribute("member"));
