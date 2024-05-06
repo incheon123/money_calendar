@@ -1,5 +1,4 @@
 import {bindClickEventOnElement} from "./calendar.js";
-import {setLimitMoney} from "./getHistorys.js";
 import {saveLimitMoney} from "./ajax.js";
 
 const INDEX_MODAL = document.getElementsByClassName("modal")[0];
@@ -22,6 +21,7 @@ observer.observe(INDEX_MODAL, {
 })
 
 export function activeModal(){
+    console.log("activeModal............")
     $('.modal').modal('show');
 }
 export function closeModal(){
