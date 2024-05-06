@@ -1,8 +1,9 @@
 import {bindClickEventOnElement} from "./calendar.js";
-import {emptyMoney, getHistoryInfoWhenClickSubmitBtn, getSelectedDate} from "./module.js";
-import {empty} from "./module.js";
+import {getHistoryInfoWhenClickSubmitBtn, getSelectedDate} from "./module.js";
 import {getHistory, updateHistorys, deleteHistorys, saveHistorys, getLimitMoney} from "./ajax.js";
 import {History} from "./history.js";
+import { activeModal } from "./modal.js";
+import { empty } from "./module.js";
 
 const DATES = document.getElementsByClassName('actualDate');
 
@@ -127,28 +128,14 @@ function getOutcome(){
  * <p>저번달/다음달 버튼을 눌렀을 때 처음 화면에 들어왔을 때 실행되는 함수</p>
  * history를 가져오고, history 지출 기록을 표시한다<br>
  */
-export function bindClickEventOnElementWhichIsActualDate(roomType) {
+export function initCalendar(roomType){
+    
     getHistory(roomType);
-    bindClickEventOnElement('.actualDate', function (e) {
 
-        console.log(roomType);
-        console.log("날짜 클릭")
-        getLimitMoney().then(
-            function(success){
-                let target_date = e.currentTarget.attributes.value.value;
-                let obj = dates_obj[target_date];
-                if (obj !== undefined) {
-                    getSelectedDate(obj);
-                }else {
-                    // empty(document.getElementsByClassName("historys_container")[0]);
-                }
-            },
-            function(error){dates_obj = {};}
-        )
+    //기존 달력 내용 지움
+    empty($(".historys_container"));
 
-    })
 }
-
 
 /**
  * 제한 금액 요소에 값을 집어넣는다<br>
@@ -183,7 +170,7 @@ function bindDynamicalClickEventOnElement(types, selector, event) {
  * 메인함수
  */
 function main(){
-    bindClickEventOnElementWhichIsActualDate();
+    initCalendar();
 
     /**
      * 수정버튼을 클릭시 수정 요청을 보냄
