@@ -1,4 +1,4 @@
-import { clickPrevNextBtn, clickPrevNextBtnChatting } from "./module.js";
+import {clickPrevNextBtnChatting } from "./module.js";
 
 function clickForPrevCalendar(){
     clickPrevNextBtnChatting('.pre-month')
