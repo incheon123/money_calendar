@@ -49,6 +49,15 @@ function setttingDate(){
     date = d[2];
 }
 
+export function setCalendarTitleDate(ele){
+
+    if(ele === '.pre-month')
+        setDateToPreMonth();
+    else
+        setDateToNextMonth();
+    
+}
+
 export function setDateToPreMonth(){
 
     setttingDate();
