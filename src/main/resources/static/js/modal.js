@@ -63,10 +63,15 @@ function isValid(){
     afterValidCheck(valid, feedback_valid, "Good!");
     return true;
 }
+
+/**
+ * 입력한 제한금액을 db에 저장한다
+ */
 export function setAjax(){
     bindClickEventOnElement('.modal-submit', function(e){
         if(isValid()) {
-            saveLimitMoney(input.value)
+            console.log(".modal-submit...........");
+            saveLimitMoney(input.value);
             input.value = " ";
         }
     })

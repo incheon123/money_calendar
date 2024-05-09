@@ -59,6 +59,7 @@ public class MainController {
     @PostMapping("save/limit_money")
     public @ResponseBody Boolean render(@RequestBody LimitMoneyDTO map){
         map.setId((String)httpSession.getAttribute("member"));
+        log.info(map);
         Boolean queryResponse = historyService.saveLimitMoney(map);
         return queryResponse;
     }

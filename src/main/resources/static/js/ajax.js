@@ -92,7 +92,7 @@ export function deleteHistorys(obj, deletedInputForm){
         }
     })
 }
-export function saveHistorys(history){
+export function saveHistorys(history){ //roomType도 추가해야됨
     console.log("saveHistorys........")
     $.ajax({
         url: '/money_management/save',
@@ -107,7 +107,7 @@ export function saveHistorys(history){
         }
     })
 }
-export function saveLimitMoney(money){
+export function saveLimitMoney(money, roomType){
     let cdate = getCurrentDate()
     if(money != null) {
         $.ajax({
@@ -171,7 +171,7 @@ export function findLimitMoney(success, error){
 /**
  * not async
  */
-export function getLimitMoney(){
+export function getLimitMoney(){ //roomType 추가해야됨
     let promise = new Promise(function(resolve, reject) {
         findLimitMoney(
         () => resolve("success"),
