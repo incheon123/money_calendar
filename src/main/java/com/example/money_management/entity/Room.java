@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,11 +21,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Log4j2
 @ToString(exclude = {"chatList"})
 @Builder
 @Setter
 @Getter
+@Component
 public class Room extends TimeLog implements Generable, Serializable{
     //방 아이디
     @Id
@@ -34,6 +35,9 @@ public class Room extends TimeLog implements Generable, Serializable{
     //방 제목
     @Column(name = "TITLE")
     private String title;
+
+    @Column(name = "owner")
+    private String owner;
 
     //방
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
@@ -70,9 +74,10 @@ public class Room extends TimeLog implements Generable, Serializable{
     @PrePersist
     public void init(){
         this.currentPeopleCount = 1;
-        this.rid = generateId();
+        this.rid = generateId(); // 영속 전에 rid 생성
         if(password != null) isSetPw = true;
-        if(requestRoomType.equals("CHATTING")) this.roomType = RoomType.CHATTING;
-        else this.roomType = RoomType.PRIVATE;
+
+        this.roomType = requestRoomType.equals("CHATTING") 
+                        ? RoomType.CHATTING : RoomType.PRIVATE;
     }
 }

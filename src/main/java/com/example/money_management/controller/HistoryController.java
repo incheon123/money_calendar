@@ -28,19 +28,17 @@ public class HistoryController {
     private HttpSession httpSession;
 
 
+    /**
+     * room_id 받아와서 달력 정보 뿌려주기
+     * @param dto
+     * @return
+     */
     @CrossOrigin(origins="*")
     @PostMapping("/get/historys")
     public List<HistoryDTO> getHistorys(@RequestBody HistoryDTO dto){
-        System.out.println("=========================");
-        System.out.println("getHistorys.....................");
+        log.info("getHistorys......... [{}]", dto);
 
-        System.out.println(dto);
-
-        String id = (String) httpSession.getAttribute("member");
-        System.out.println(id);
-
-        List<HistoryDTO> result = historyService.getHistory(id, dto.getYear(), dto.getMonth());
-//        List<HistoryDTO> result = historyService.getHistory(id, c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1);
+        List<HistoryDTO> result = historyService.getHistory(dto.getRid(), dto.getYear(), dto.getMonth());
 
         return result;
     }

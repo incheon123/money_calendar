@@ -1,8 +1,10 @@
 package com.example.money_management.service;
 
+import com.example.money_management.annotation.Dto;
 import com.example.money_management.dto.MemberDTO;
 import com.example.money_management.entity.History;
 import com.example.money_management.entity.Member;
+import com.example.money_management.entity.Room;
 import com.example.money_management.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Member findById(MemberDTO memberDTO) {
 
-        Optional<Member> result = memberRepository.findById(memberDTO.getId());
+        Optional<Member> result = memberRepository.findById(memberDTO.getOwner());
 
         //만약 result가 비었다면(아이디가 없다면)
         if(result.isEmpty()) { return null;}
@@ -49,10 +51,11 @@ public class MemberServiceImpl implements MemberService{
         회원가입한 계정을 db에 등록
      */
     @Override
-    public void save(MemberDTO memberDTO) {
-        System.out.println(memberDTO);
-        Member member = dtoToEntity(memberDTO);
-        memberRepository.save(member);
+    public Member save(MemberDTO memberDTO) {
+        Member member = memberRepository.save(dtoToEntity(memberDTO));
+
+        
+        return member;
     }
 
 }

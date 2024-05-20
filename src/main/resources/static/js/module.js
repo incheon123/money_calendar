@@ -1,6 +1,7 @@
 import { bindClickEventOnElement } from "./calendar.js";
 import {setCalendarTitleDate} from "./date.js";
 import { initCalendar } from "./getHistorys.js";
+import {getCurrentRoomUrl, getRid} from "./url/url.js";
 
 
 /**
@@ -114,24 +115,13 @@ export function getSelectedDate(myHistory){
 
 function bindClickEvent(ele, type){
     bindClickEventOnElement(ele, function(e){
-        console.log("index" + " " + type)
+        let rid = getRid(getCurrentRoomUrl());
 
         //달력의 날짜를 설정
         setCalendarTitleDate(ele);
-
-        //각 달의 제한된 금액이 설정되어 있지 않다면 function(error) 실행
-        // getLimitMoney().then(
-        //     function(success){
-        //     },
-        //     function(error){
-        //         emptyMoney();
-        //         empty($('.input-groups'))
-        //         activeModal();
-        //     }
-        // )
-
-        //처음 들어온 화면에서는 저번 달, 다음 달 버튼이 안눌려있어서 type이 적용안된다.
-        initCalendar(type);
+        
+        //초기화
+        initCalendar(rid, type);
     })
 }
 

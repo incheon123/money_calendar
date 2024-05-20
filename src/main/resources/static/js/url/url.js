@@ -2,7 +2,7 @@
  * 인자 url 파싱 함수
  * @param {*} url 
  */
-export function parseUrl(url = ""){
+export function getRid(url = ""){
 
     if(url != ""            && 
        url !== null         && 
@@ -10,11 +10,15 @@ export function parseUrl(url = ""){
        url.trim().length !== 0
     ){
 
-        urlFragment = url.split('/')
-        roomId = urlFragment[urlFragment.length - 1]
+        let urlFragment = url.split('/')
+        let roomId = urlFragment[urlFragment.length - 1]
 
         return roomId;
     }
 
-    return -1;
+    return undefined;
+}
+
+export function getCurrentRoomUrl(){
+    return window.location.href;
 }

@@ -22,4 +22,5 @@ public class History extends TimeLog implements Serializable {
     private String content;
 
     private String type;
+    private String roomType;
 }

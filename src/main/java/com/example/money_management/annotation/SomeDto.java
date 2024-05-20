@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToEntity(entity = SomeEntity.class)
+@DtoToEntity(entity = SomeEntity.class)
 class SomeDto{
     private Long id;
     private String name;

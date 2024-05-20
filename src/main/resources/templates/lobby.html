@@ -119,8 +119,8 @@
                     <!-- room list -->
                     <div class="container border border-2 border-secondary w-100 h-75 d-flex px-0 d-flex flex-column roomList">
                         <!-- room -->
-                        <div class="container border border-2 border-primary my-1 rounded-2" style="width:85%;" th:each="room : ${roomList}">
-                            <span class="d-inline-block" style="width:15%;" th:text="${room.getCreater().getId()}"></span>
+                        <div class="container border border-2 border-primary my-1 rounded-2" style="width:85%;" th:each="room : ${rooms}">
+                            <span class="d-inline-block" style="width:15%;" th:text="${room.getOwner()}"></span>
                             <span class="w-50 d-inline-block room-name text-truncate" th:text="${room.getTitle()}"></span>
                             <span class="d-inline-block" style="width:10%;" th:text="${room.getMaxCapacity()}"></span>
                             <th:block th:if="${room.isSetPw() == true}">
@@ -130,7 +130,7 @@
                                 <span class="d-inline-block" style="width:10%;">UnLocked</span>
                             </th:block>
                             <span class="d-inline-block" style="width:10%;">
-                                <button class="btn mx-0 px-1 btn-outline-secondary" style="background-color: white;">입장하기</button>
+                                <a th:href="@{/money_management/room/} + ${room.getRid()}" class="btn mx-0 px-1 btn-outline-secondary" style="background-color: white;">입장하기</a>
                             </span>
                         </div>
 

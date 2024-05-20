@@ -39,13 +39,16 @@
         <h3 class="text-center mt-3">회원가입</h3>
         <form class="container w-100" action="/money_management/register" method="POST">
             <div class="my-4">
-                <input type="text" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Id" name="id">
+                <input type="text" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Id" name="owner">
             </div>
             <div class="my-4">
                 <input type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Password" name="pw">
             </div>
             <div class="my-4">
                 <input type="email" class="form-control" aria-describedby="" placeholder="E-mail" name="email">
+            </div>
+            <div class="my-4">
+                <input type="hidden" class="form-control" aria-describedby="" name="requestRoomType" value="PRIVATE">
             </div>
             <div class="my-4 d-flex justify-content-start">
                 <label style="margin-right: 5px;">남성</label><input type="radio" aria-describedby="" style="margin-right: 20px;" name="gender" value="man">

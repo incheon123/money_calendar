@@ -65,8 +65,8 @@ public class HistoryServiceImpl implements HistoryService{
 
 
     @Override
-    public List<HistoryDTO> getHistory(String id, int year, int month) {
-        History[] result = historyRepository.getHistory(id, year, month);
+    public List<HistoryDTO> getHistory(Long rid, int year, int month) {
+        History[] result = historyRepository.getHistory(rid, year, month);
 
         List<HistoryDTO> list = new ArrayList<>();
         for(int i = 0; i  < result.length; i++){

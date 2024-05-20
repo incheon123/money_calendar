@@ -24,11 +24,11 @@ public interface HistoryRepository extends JpaRepository<History, HistoryId> {
 
     @Query("SELECT h " +
             "FROM History h " +
-            "WHERE h.historyId.id = :id   AND " +
-            "h.historyId.year     = :year AND " +
-            "h.historyId.month    = :month"
+            "WHERE h.historyId.rid = :rid     AND " +
+            "h.historyId.year     = :year     AND " +
+            "h.historyId.month    = :month "
     )
-    History[] getHistory(@Param("id") String id, @Param("year") int year, @Param("month") int month);
+    History[] getHistory(@Param("rid") Long rid, @Param("year") int year, @Param("month") int month);
 
     @Query("SELECT lm.limit_money " +
             "FROM LimitMoney lm " +

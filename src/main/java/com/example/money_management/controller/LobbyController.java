@@ -5,6 +5,7 @@ import com.example.money_management.dto.RoomList;
 import com.example.money_management.entity.Member;
 import com.example.money_management.entity.Room;
 import com.example.money_management.entity.RoomHistory;
+import com.example.money_management.enumType.RoomType;
 import com.example.money_management.repository.MemberRepository;
 import com.example.money_management.repository.RoomHistoryRepository;
 import com.example.money_management.repository.RoomRepository;
@@ -48,49 +49,14 @@ public class LobbyController {
         String id = (String)httpSession.getAttribute("member");
         if(id == null) return "redirect:/money_management/login";
 
-        // 채팅방 목록 가져오기
-        List<Room> room = roomRepository.findAll();
-        log.info(room);
+        // 채팅방 목록 가져오기(private 제외)
+        List<Room> rooms = roomRepository.getRoomsByType(RoomType.CHATTING);
+        log.info(rooms);
 
-        model.addAttribute("model", room);
+        model.addAttribute("rooms", rooms);
 
         return "lobby";
     }
 
-    /*
-     * 방생성 컨트롤러 메서드
-     */
-    @PostMapping("/create/room")
-    public String createRoom(Room room){
-        log.info("createRoom.................. " + httpSession.getAttribute("member"));
-        String id = (String)httpSession.getAttribute("member");
-        if(id == null) return "redirect:/money_management/login";
-
-
-        //create
-        Room savedRoom = roomRepository.save(room);
-        Member member = memberRepository.getReferenceById(id);
-        RoomHistory roomHistory = RoomHistory.builder()
-                .room(savedRoom)
-                .member(member)
-                .isCreater(true) //true인 이유는 지금 이 메서드가 방 만드는 메서드기 때문
-                .build();
-
-        roomHistoryRepository.save(roomHistory);
-
-
-        return "redirect:/money_management/room/"+room.getRid();
-    }
-
-
-//    log.info("shit " + URLEncoder.encode(String.valueOf(rid), UTF_8));
-    @GetMapping("/room/{id}")
-    public String test(@PathVariable("id") String id) throws UnsupportedEncodingException {
-        long rid = (long)Long.parseLong(id);
-        log.info("rid => " + rid);
-
-        
-
-        return "room";
-    }
+    
 }

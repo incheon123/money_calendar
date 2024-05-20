@@ -11,7 +11,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Log4j2
 @ToString
 @Builder
 public class ChatMessage {

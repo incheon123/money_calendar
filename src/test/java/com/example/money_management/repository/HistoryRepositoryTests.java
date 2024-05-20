@@ -39,7 +39,7 @@ public class HistoryRepositoryTests {
     @Test
     public void getHistoryTest(){
         Calendar c = Calendar.getInstance();
-        History[] result = repository.getHistory("opportunity13", 2024, 2);
+        History[] result = repository.getHistory(123L, 2024, 2);
         System.out.println("============================");
         System.out.println(result[0].getContent());
     }

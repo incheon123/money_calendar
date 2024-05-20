@@ -18,15 +18,67 @@ export function updateHistorys(requestObject){
         success: function (e) {
             // new History().clear();
             empty($(document.getElementsByClassName("historys_container")[0]));
-            getHistory();
+            setHistory();
         }
     })
 }
-export function getHistory(rType){
-    console.log(rType);
+
+
+export function setIndexHistory(rid){
+    console.log(rid);
+    console.log('ajax.js - getHistory index.........');
+
+    let result = getLimitMoney(rid);
+
+    result.then(
+        function(success){
+            console.log(success)
+            let current_date = getCurrentDate();
+            $.ajax({
+                url: '/money_management/index',
+                cache: false,
+                type: 'post',
+                //아이디와 개인방인지 멀티방인지 구분할 수 있는 유니크 값을 같이 보내야 한다
+                //만약 년/월/일만 보내면 개인, 멀티 구분없이 모든 데이터를 다 가져오는 버그 발생
+                data: JSON.stringify({
+                    rid: rid,
+                    year: current_date[0],
+                    month: current_date[1],
+                    date: current_date[2],
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (e) {
+                    emptyActualDate();
+                    insertHistorys(e);
+                    insertHistoryToCalendar(e);
+                    bindClickEventOnElement('.actualDate', function (e) {
+                        console.log(roomType);
+                        console.log("날짜 클릭")
+
+                        let target_date = e.currentTarget.attributes.value.value;
+                        let obj = dates_obj[target_date];
+                        if (obj !== undefined) {
+                            getSelectedDate(obj);
+                        }
+                    })
+                }
+            })
+        },
+        function(error){
+            console.log(error);
+            // activeModal()
+        }
+    )
+
+}
+
+
+export function setHistory(rid){
+    console.log(rid);
     console.log('ajax.js - getHistory.........');
 
-    let result = getLimitMoney();
+    let result = getLimitMoney(rid);
 
     result.then(
         function(success){
@@ -58,9 +110,6 @@ export function getHistory(rType){
                         let obj = dates_obj[target_date];
                         if (obj !== undefined) {
                             getSelectedDate(obj);
-                        }else {
-                            // empty(document.getElementsByClassName("historys_container")[0]);
-                            dates_obj = {};
                         }
                     })
                 }
@@ -87,7 +136,7 @@ export function deleteHistorys(obj, deletedInputForm){
             content_no: obj.content_no
         }),
         success: function (e) {
-            getHistory();
+            setHistory();
             updateHistoryContainer(deletedInputForm);
         }
     })
@@ -103,11 +152,11 @@ export function saveHistorys(history){ //roomType도 추가해야됨
         type: 'post',
         success: function () {
             history.clear();
-            getHistory();
+            setHistory();
         }
     })
 }
-export function saveLimitMoney(money, roomType){
+export function saveLimitMoney(money, rid){
     let cdate = getCurrentDate()
     if(money != null) {
         $.ajax({
@@ -119,11 +168,12 @@ export function saveLimitMoney(money, roomType){
             data: JSON.stringify({
                 year: cdate[0],
                 month: cdate[1],
-                limit_money: money
+                limit_money: money,
+                rid: rid
             }),
             success: function (e) {
                 closeModal();
-                getHistory();
+                setHistory();
             },
             error: function (e) {
                 console.log('error');
@@ -134,7 +184,7 @@ export function saveLimitMoney(money, roomType){
     }
 }
 
-export function findLimitMoney(success, error){
+export function findLimitMoney(success, error, rid){
     let current_date = getCurrentDate();
 
     $.ajax({
@@ -146,7 +196,7 @@ export function findLimitMoney(success, error){
         data: JSON.stringify({
             year: current_date[0],
             month: current_date[1],
-            date: current_date[2]
+            rid: rid
         }),
         success: function (e) {
             if(e[0] !== null){
@@ -171,11 +221,12 @@ export function findLimitMoney(success, error){
 /**
  * not async
  */
-export function getLimitMoney(){ //roomType 추가해야됨
+export function getLimitMoney(rid){ //roomType 추가해야됨
     let promise = new Promise(function(resolve, reject) {
         findLimitMoney(
         () => resolve("success"),
-        () => reject("error")
+        () => reject("error"),
+            rid
         );
     });
     return promise;

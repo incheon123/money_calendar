@@ -5,6 +5,8 @@ import com.example.money_management.dto.LimitMoneyDTO;
 import com.example.money_management.dto.RoomList;
 import com.example.money_management.entity.LimitMoney;
 import com.example.money_management.entity.Room;
+import com.example.money_management.entity.RoomHistory;
+import com.example.money_management.repository.MemberRepository;
 import com.example.money_management.repository.RoomRepository;
 import com.example.money_management.service.HistoryService;
 import jakarta.servlet.http.HttpSession;
@@ -39,16 +41,29 @@ public class MainController {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @GetMapping("/index")
-    public String showMainPage(@SessionAttribute(value = "member", required = false) String member, Model model){
+    public String showMainPage(@SessionAttribute(value = "member", required = false) String member){
         log.info("index............. GET");
         log.info("/index............ " + member);
 
-        if(member == null){
-            return "redirect:/money_management/login";
-        }
+        if(member == null) return "redirect:/money_management/login";
+
 
         return "index";
+    }
+
+    @PostMapping("/index")
+    @ResponseBody
+    public List<RoomHistory> getIndexCalendar(@SessionAttribute(value = "member") String member){
+        log.info("getIndexCalendar");
+
+        Long rid = memberRepository.getReferenceById(member).getPrivateRoomId();
+        List<RoomHistory> roomHistories = roomRepository.getReferenceById(rid).getRoomHistories();
+        System.out.println(roomHistories);
+        return roomHistories;
     }
 
     @GetMapping("/statistic")
@@ -56,13 +71,13 @@ public class MainController {
         return "statistic";
     }
 
-    @PostMapping("save/limit_money")
-    public @ResponseBody Boolean render(@RequestBody LimitMoneyDTO map){
-        map.setId((String)httpSession.getAttribute("member"));
-        log.info(map);
-        Boolean queryResponse = historyService.saveLimitMoney(map);
-        return queryResponse;
-    }
+//    @PostMapping("save/limit_money")
+//    public @ResponseBody Boolean render(@RequestBody LimitMoneyDTO map){
+//        map.setId((String)httpSession.getAttribute("member"));
+//        log.info(map);
+//        Boolean queryResponse = historyService.saveLimitMoney(map);
+//        return queryResponse;
+//    }
 
     @GetMapping("/share_plan")
     public String showShare_plan(){

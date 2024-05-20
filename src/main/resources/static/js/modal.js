@@ -1,5 +1,6 @@
 import {bindClickEventOnElement} from "./calendar.js";
 import {saveLimitMoney} from "./ajax.js";
+import {getCurrentRoomUrl, getRid} from "./url/url.js";
 
 const INDEX_MODAL = document.getElementsByClassName("modal")[0];
 
@@ -69,9 +70,10 @@ function isValid(){
  */
 export function setAjax(){
     bindClickEventOnElement('.modal-submit', function(e){
+        let rid = getRid(getCurrentRoomUrl());
         if(isValid()) {
             console.log(".modal-submit...........");
-            saveLimitMoney(input.value);
+            saveLimitMoney(input.value,rid);
             input.value = " ";
         }
     })

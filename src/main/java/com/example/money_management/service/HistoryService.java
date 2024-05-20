@@ -17,7 +17,7 @@ public interface HistoryService {
     void saveHistory(HistoryDTO history);
     void deleteHistory(HistoryDTO history);
     Boolean saveLimitMoney(LimitMoneyDTO limitMoneyDTO);
-    List<HistoryDTO> getHistory(String id, int year, int month);
+    List<HistoryDTO> getHistory(Long rid, int year, int month);
 
     Integer getTotalCount(String id, int y, int m, int d);
 

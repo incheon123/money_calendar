@@ -1,12 +1,19 @@
 package com.example.money_management.controller;
 
+import com.example.money_management.annotation.Dto;
 import com.example.money_management.dto.MemberDTO;
 import com.example.money_management.entity.Member;
+import com.example.money_management.entity.Room;
+import com.example.money_management.entity.RoomHistory;
 import com.example.money_management.enumType.Role;
+import com.example.money_management.repository.MemberRepository;
+import com.example.money_management.repository.RoomHistoryRepository;
+import com.example.money_management.repository.RoomRepository;
 import com.example.money_management.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +31,19 @@ public class LoginController {
 
     @Autowired
     private HttpSession httpSession;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private RoomHistoryRepository roomHistoryRepository;
+
+    @Autowired
+    private ApplicationContext context;
+
 
     /**
      * login GET method
@@ -90,10 +110,24 @@ public class LoginController {
         계정정보를 받아와 등록한다
      */
     @PostMapping("/register")
-    public String register(MemberDTO memberDTO){
+    public String register(MemberDTO memberDTO, Room room){
+        log.info("create private room.................. [{}]", memberDTO.getOwner());
         memberDTO.setRole(Role.MEMBER);
 
-        memberService.save(memberDTO);
+        //create
+        Room savedRoom = roomRepository.save(room);
+        memberDTO.setPrivateRoomId(savedRoom.getRid());
+        Member member = memberService.save(memberDTO);
+
+        RoomHistory roomHistory = RoomHistory.builder()
+                .room(savedRoom)
+                .member(member)
+                .isCreater(true) //true인 이유는 지금 이 메서드가 방 만드는 메서드기 때문
+                .build();
+
+        roomHistoryRepository.save(roomHistory);
+
+
 
         return "redirect:/money_management/login";
     }

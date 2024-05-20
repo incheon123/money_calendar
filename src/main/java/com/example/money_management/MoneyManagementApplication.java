@@ -2,6 +2,8 @@ package com.example.money_management;
 
 import com.example.money_management.config.filter.SessionFilter;
 import com.example.money_management.config.listener.SessionListener;
+import com.example.money_management.entity.Room;
+
 import jakarta.servlet.http.HttpSessionListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,5 +28,8 @@ public class MoneyManagementApplication {
         return new SessionFilter();
     }
 
-
+    @Bean
+    public Room room(){
+        return new Room();
+    }
 }
