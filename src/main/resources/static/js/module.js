@@ -115,13 +115,12 @@ export function getSelectedDate(myHistory){
 
 function bindClickEvent(ele, type){
     bindClickEventOnElement(ele, function(e){
-        let rid = getRid(getCurrentRoomUrl());
 
         //달력의 날짜를 설정
         setCalendarTitleDate(ele);
-        
+        console.log(type);
         //초기화
-        initCalendar(rid, type);
+        initCalendar(type);
     })
 }
 

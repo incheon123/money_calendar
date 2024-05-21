@@ -3,6 +3,7 @@ import {getHistoryInfoWhenClickSubmitBtn, getSelectedDate} from "./module.js";
 import {setHistory, updateHistorys, deleteHistorys, saveHistorys, getLimitMoney, setIndexHistory} from "./ajax.js";
 import {History} from "./history.js";
 import { empty } from "./module.js";
+import {getRid,  getCurrentRoomUrl} from "./url/url.js";
 
 const DATES = document.getElementsByClassName('actualDate');
 
@@ -127,13 +128,13 @@ function getOutcome(){
  * <p>저번달/다음달 버튼을 눌렀을 때 처음 화면에 들어왔을 때 실행되는 함수</p>
  * history를 가져오고, history 지출 기록을 표시한다<br>
  */
-export function initCalendar(rid, type){
-
+export function initCalendar(type){
+    console.log("initCalendar............ " + type)
     if(type === "PRIVATE")
-        setHistory(rid);
+        setIndexHistory();
 
     if(type === "CHATTING")
-        setIndexHistory(rid);
+        setHistory(getRid(getCurrentRoomUrl()));
 
     //기존 달력 내용 지움
     empty($(".historys_container"));

@@ -24,11 +24,10 @@ export function updateHistorys(requestObject){
 }
 
 
-export function setIndexHistory(rid){
-    console.log(rid);
+export function setIndexHistory(){
     console.log('ajax.js - getHistory index.........');
 
-    let result = getLimitMoney(rid);
+    let result = getLimitMoney();
 
     result.then(
         function(success){
@@ -41,10 +40,8 @@ export function setIndexHistory(rid){
                 //아이디와 개인방인지 멀티방인지 구분할 수 있는 유니크 값을 같이 보내야 한다
                 //만약 년/월/일만 보내면 개인, 멀티 구분없이 모든 데이터를 다 가져오는 버그 발생
                 data: JSON.stringify({
-                    rid: rid,
                     year: current_date[0],
                     month: current_date[1],
-                    date: current_date[2],
                 }),
                 dataType: 'json',
                 contentType: 'application/json',
@@ -187,17 +184,19 @@ export function saveLimitMoney(money, rid){
 export function findLimitMoney(success, error, rid){
     let current_date = getCurrentDate();
 
+    let limitMoneyId = {
+        year: current_date[0],
+        month: current_date[1]
+    };
+    if( rid !== -1 ) limitMoneyId = {...limitMoneyId, rid}
+    console.log(limitMoneyId);
     $.ajax({
         url: '/money_management/get/limit_money',
         cache: false,
         type: 'post',
         dataType: 'json',
         contentType: 'application/json',
-        data: JSON.stringify({
-            year: current_date[0],
-            month: current_date[1],
-            rid: rid
-        }),
+        data: JSON.stringify(limitMoneyId),
         success: function (e) {
             if(e[0] !== null){
                 success();
@@ -221,7 +220,7 @@ export function findLimitMoney(success, error, rid){
 /**
  * not async
  */
-export function getLimitMoney(rid){ //roomType 추가해야됨
+export function getLimitMoney(rid = -1){ //roomType 추가해야됨
     let promise = new Promise(function(resolve, reject) {
         findLimitMoney(
         () => resolve("success"),
