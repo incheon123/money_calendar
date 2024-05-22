@@ -1,17 +1,13 @@
 import {clickPrevNextBtnChatting } from "./module.js";
 
-function clickForPrevCalendar(){
-    clickPrevNextBtnChatting('.pre-month')
+let BUTTON_PREVIOUS_MONTH = '.pre-month';
+let BUTTON_NEXT_MONTH     = '.next-month';
+
+/**
+ * 달력 상단에 있는 저번 달, 다음 달 버튼에 이벤트 할당
+ */
+function clickCalendarMonthBtn(){
+    clickPrevNextBtnChatting(BUTTON_PREVIOUS_MONTH, BUTTON_NEXT_MONTH);
 }
 
-function clickForNextCalendar(){
-    clickPrevNextBtnChatting('.next-month')
-}
-
-export function executeCalendarBtn(){
-    console.log("room + executeCalendarBtn")
-    clickForNextCalendar();
-    clickForPrevCalendar();
-}
-
-executeCalendarBtn();
+clickCalendarMonthBtn();
