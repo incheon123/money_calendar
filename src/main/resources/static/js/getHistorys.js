@@ -129,7 +129,7 @@ function getOutcome(){
  * history를 가져오고, history 지출 기록을 표시한다<br>
  */
 export function initCalendar(type){
-    console.log("initCalendar............ " + type)
+    console.log(type);
     if(type === "PRIVATE")
         setIndexHistory();
 
@@ -174,7 +174,7 @@ function bindDynamicalClickEventOnElement(types, selector, event) {
  * 메인함수
  */
 function main(){
-    initCalendar();
+    // initCalendar();
 
     /**
      * 수정버튼을 클릭시 수정 요청을 보냄
