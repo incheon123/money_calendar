@@ -113,20 +113,24 @@ export function getSelectedDate(myHistory){
     }
 }
 
-function bindClickEvent(ele, type){
-    bindClickEventOnElement(ele, function(e){
+function bindClickEvent(btns, type){
+    initCalendar(type);
+    btns.forEach(function (btn){
 
-        //달력의 날짜를 설정
-        setCalendarTitleDate(ele);
-        console.log(type);
-        //초기화
-        initCalendar(type);
+        bindClickEventOnElement(btn, function(e){    
+            //달력의 날짜를 설정
+            setCalendarTitleDate(btn);
+            console.log(btn);
+            //초기화
+            initCalendar(type);
+        })
+
     })
 }
 
-export function clickPrevNextBtn(ele){
+export function clickPrevNextBtn(...ele){
     bindClickEvent(ele, "PRIVATE")
 }
-export function clickPrevNextBtnChatting(ele){
+export function clickPrevNextBtnChatting(...ele){
     bindClickEvent(ele, "CHATTING")
 }

@@ -31,7 +31,6 @@ export function setIndexHistory(){
 
     result.then(
         function(success){
-            console.log(success)
             let current_date = getCurrentDate();
             $.ajax({
                 url: '/money_management/index',
@@ -50,8 +49,6 @@ export function setIndexHistory(){
                     insertHistorys(e);
                     insertHistoryToCalendar(e);
                     bindClickEventOnElement('.actualDate', function (e) {
-                        console.log(roomType);
-                        console.log("날짜 클릭")
 
                         let target_date = e.currentTarget.attributes.value.value;
                         let obj = dates_obj[target_date];
