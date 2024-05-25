@@ -1,6 +1,6 @@
 import {bindClickEventOnElement} from "./calendar.js";
 import {getHistoryInfoWhenClickSubmitBtn, getSelectedDate} from "./module.js";
-import {setHistory, updateHistorys, deleteHistorys, saveHistorys, getLimitMoney, setIndexHistory} from "./ajax.js";
+import {setHistory, updateHistorys, deleteHistorys, saveHistorys, setMyCalendar} from "./ajax.js";
 import {History} from "./history.js";
 import { empty } from "./module.js";
 import {getRid,  getCurrentRoomUrl} from "./url/url.js";
@@ -131,7 +131,7 @@ function getOutcome(){
 export function initCalendar(type){
     console.log(type);
     if(type === "PRIVATE")
-        setIndexHistory();
+        setHistory(getRid(getCurrentRoomUrl()));
 
     if(type === "CHATTING")
         setHistory(getRid(getCurrentRoomUrl()));

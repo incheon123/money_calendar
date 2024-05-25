@@ -1,25 +1,19 @@
 package com.example.money_management.controller;
 
-import com.example.money_management.dto.HistoryDTO;
-import com.example.money_management.dto.LimitMoneyDTO;
 import com.example.money_management.dto.RoomList;
-import com.example.money_management.entity.LimitMoney;
-import com.example.money_management.entity.Room;
+import com.example.money_management.entity.Member;
 import com.example.money_management.entity.RoomHistory;
 import com.example.money_management.repository.MemberRepository;
 import com.example.money_management.repository.RoomRepository;
 import com.example.money_management.service.HistoryService;
+import com.example.money_management.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -44,18 +38,27 @@ public class MainController {
     @Autowired
     private MemberRepository memberRepository;
 
-    @GetMapping("/index")
-    public String showMainPage(@SessionAttribute(value = "member", required = false) String member){
+    @Autowired
+    private MemberService memberService;
+
+    @GetMapping("/myCalendar")
+    public String redirectPage(@SessionAttribute(value = "member") String member){
+        Member m = memberService.findById(member);
+        return "redirect:/money_management/myCalendar/" + m.getPrivateRoomId();
+    }
+    @GetMapping("/myCalendar/{rid}")
+    public String showMainPage(@SessionAttribute(value = "member", required = false) String member,
+                               @PathVariable("rid") Long rid){
         log.info("index............. GET");
         log.info("/index............ " + member);
 
         if(member == null) return "redirect:/money_management/login";
 
 
-        return "index";
+        return "myCalendar";
     }
 
-    @PostMapping("/index")
+    @PostMapping("/myCalendar")
     @ResponseBody
     public List<RoomHistory> getIndexCalendar(@SessionAttribute(value = "member") String member){
         log.info("getIndexCalendar");
@@ -70,14 +73,6 @@ public class MainController {
     public String showPage(){
         return "statistic";
     }
-
-//    @PostMapping("save/limit_money")
-//    public @ResponseBody Boolean render(@RequestBody LimitMoneyDTO map){
-//        map.setId((String)httpSession.getAttribute("member"));
-//        log.info(map);
-//        Boolean queryResponse = historyService.saveLimitMoney(map);
-//        return queryResponse;
-//    }
 
     @GetMapping("/share_plan")
     public String showShare_plan(){

@@ -24,8 +24,8 @@ export function updateHistorys(requestObject){
 }
 
 
-export function setIndexHistory(){
-    console.log('ajax.js - getHistory index.........');
+export function setMyCalendar(){
+    console.log('ajax.js - setMyCalendar.........');
 
     let result = getLimitMoney();
 
@@ -33,7 +33,7 @@ export function setIndexHistory(){
         function(success){
             let current_date = getCurrentDate();
             $.ajax({
-                url: '/money_management/index',
+                url: '/money_management/myCalendar',
                 cache: false,
                 type: 'post',
                 //아이디와 개인방인지 멀티방인지 구분할 수 있는 유니크 값을 같이 보내야 한다
@@ -87,8 +87,6 @@ export function setHistory(rid){
                 data: JSON.stringify({ 
                     year: current_date[0],
                     month: current_date[1],
-                    date: current_date[2],
-                    roomType: rType
                 }),
                 dataType: 'json',
                 contentType: 'application/json',
@@ -167,7 +165,7 @@ export function saveLimitMoney(money, rid){
             }),
             success: function (e) {
                 closeModal();
-                setHistory();
+                setHistory(rid);
             },
             error: function (e) {
                 console.log('error');
@@ -183,7 +181,8 @@ export function findLimitMoney(success, error, rid){
 
     let limitMoneyId = {
         year: current_date[0],
-        month: current_date[1]
+        month: current_date[1],
+        rid : rid
     };
     if( rid !== -1 ) limitMoneyId = {...limitMoneyId, rid}
     console.log(limitMoneyId);
