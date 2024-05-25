@@ -73,7 +73,7 @@ export function setAjax(){
         let rid = getRid(getCurrentRoomUrl());
         if(isValid()) {
             console.log(".modal-submit...........");
-            saveLimitMoney(input.value,rid);
+            saveLimitMoney(input.value, rid);
             input.value = " ";
         }
     })
