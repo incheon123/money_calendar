@@ -1,6 +1,7 @@
 package com.example.money_management.controller;
 
 import com.example.money_management.dto.HistoryDTO;
+import com.example.money_management.dto.LimitMoneyDTO;
 import com.example.money_management.service.HistoryService;
 import com.example.money_management.service.statistic.HistoryStatisticService;
 import jakarta.servlet.http.HttpSession;
@@ -8,12 +9,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/money_management")
+@SessionAttributes("member")
 @Log4j2
 public class HistoryController {
 
@@ -108,13 +109,20 @@ public class HistoryController {
 
     @ResponseBody
     @PostMapping("/get/limit_money")
-    public Integer[] getLimitMoney(@RequestBody HistoryDTO dto){
+    public Integer[] getLimitMoney(@RequestBody LimitMoneyDTO dto){
 
         System.out.println(dto);
 
-        Integer result = historyService.getLimitMoney(dto.getYear(), dto.getMonth(), (String)httpSession.getAttribute("member"));
+        Integer result = historyService.getLimitMoney(dto.getYear(), dto.getMonth(), dto.getRid());
 
         return new Integer[]{result};
+    }
+
+    @PostMapping("/save/limit_money")
+    public String saveLimitMoney(@RequestBody LimitMoneyDTO limitMoneyDTO){
+        log.warn("limit_money : [{}]", limitMoneyDTO);
+        historyService.saveLimitMoney(limitMoneyDTO);
+        return "success";
     }
 
     @ResponseBody

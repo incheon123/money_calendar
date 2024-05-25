@@ -18,21 +18,16 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
-    public Member findById(MemberDTO memberDTO) {
+    public Member findById(String member_id) {
 
-        Optional<Member> result = memberRepository.findById(memberDTO.getOwner());
 
         //만약 result가 비었다면(아이디가 없다면)
-        if(result.isEmpty()) { return null;}
+        if(member_id == null) { return null;}
 
-        Member m = result.get();
+        Optional<Member> m = memberRepository.findById(member_id);
+        if(!m.isPresent()) return null;
 
-        //만약 가져온 member의 비밀번호와 요청된 객체의 비밀번호가 다르다면
-        if(!( m.getPw().equals(memberDTO.getPw())) ){
-            return null;
-        }
-
-        return m;
+        return m.get();
     }
 
     @Override
@@ -56,6 +51,17 @@ public class MemberServiceImpl implements MemberService{
 
         
         return member;
+    }
+
+    @Override
+    public Member compareIdAndPw(MemberDTO memberDTO) {
+        Member m = memberRepository.getReferenceById(memberDTO.getOwner());
+        if(m == null) return null;
+
+        if( !(m.getPw().equals(memberDTO.getPw()))) return null;
+
+
+        return m;
     }
 
 }

@@ -94,6 +94,6 @@ public class HistoryRepositoryTests {
 
     @Test
     public void testMoney(){
-        System.out.println(repository.getLimitMoney(2024, 3, "opportunity13"));
+        System.out.println(repository.getLimitMoney(2024, 3, 123L));
     }
 }
