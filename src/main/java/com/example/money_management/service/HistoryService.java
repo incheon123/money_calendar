@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface HistoryService {
 
-    Integer getLimitMoney(int y, int m, String id);
+    Integer getLimitMoney(int y, int m, Long rid);
     void saveHistory(HistoryDTO history);
     void deleteHistory(HistoryDTO history);
     Boolean saveLimitMoney(LimitMoneyDTO limitMoneyDTO);
@@ -58,9 +58,9 @@ public interface HistoryService {
     }
     default LimitMoney limitMoneyDtoToEntity(LimitMoneyDTO dto){
         LimitMoneyId id = LimitMoneyId.builder()
-                .id(dto.getId())
                 .year(dto.getYear())
                 .month(dto.getMonth())
+                .rid(dto.getRid())
                 .build();
         LimitMoney lm = LimitMoney.builder()
                 .id(id)
