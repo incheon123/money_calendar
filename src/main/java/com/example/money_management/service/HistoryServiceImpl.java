@@ -7,13 +7,15 @@ import com.example.money_management.entity.HistoryId;
 import com.example.money_management.entity.LimitMoney;
 import com.example.money_management.repository.HistoryRepository;
 import com.example.money_management.repository.LimitMoneyRepository;
+
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+@Log4j2
 @Service
 public class HistoryServiceImpl implements HistoryService{
 
@@ -24,8 +26,8 @@ public class HistoryServiceImpl implements HistoryService{
     private LimitMoneyRepository limitMoneyRepository;
 
     @Override
-    public Integer getLimitMoney(int y, int m, String id) {
-        Integer result = historyRepository.getLimitMoney(y,m,id);
+    public Integer getLimitMoney(int y, int m, Long rid) {
+        Integer result = historyRepository.getLimitMoney(y,m,rid);
         return result;
     }
 
@@ -51,6 +53,7 @@ public class HistoryServiceImpl implements HistoryService{
 
     @Override
     public Boolean saveLimitMoney(LimitMoneyDTO limitMoneyDTO) {
+        log.warn("saveLimitMoney.........");
         LimitMoney lm = limitMoneyDtoToEntity(limitMoneyDTO);
 
         try {
