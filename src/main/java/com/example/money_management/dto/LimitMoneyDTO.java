@@ -8,6 +8,6 @@ import lombok.ToString;
 public class LimitMoneyDTO {
     private int year;
     private int month;
-    private String id;
+    private Long rid;
     private int limit_money;
 }
