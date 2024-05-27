@@ -20,6 +20,6 @@ public class LimitMoneyId implements Serializable {
 
     private int year;
     private int month;
-
     private Long rid;
+    
 }
