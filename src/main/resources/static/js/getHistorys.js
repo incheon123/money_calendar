@@ -199,14 +199,13 @@ function main(){
     bindClickEventOnElement('.submit-content', () => {
 
         let history = new History();
-
-        let result = history.checkValidate(); //알맞은 금액과 내용일 때 true, 아니면 false
-
+        let result = history.checkValidate();
         if(result.result === true) {
-            saveHistorys(history);
-        }else{
-            alert(result.err)
+            saveHistorys(history, getRid(getCurrentRoomUrl()));
+            return;
         }
+
+        alert(result.err)
 
     })
 }
