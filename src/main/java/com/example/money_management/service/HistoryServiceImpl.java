@@ -45,7 +45,7 @@ public class HistoryServiceImpl implements HistoryService{
                 .year(history.getYear())
                 .month(history.getMonth())
                 .date(history.getDate())
-                .content_no(history.getContent_no())
+                .rid(history.getRid())
                 .build();
 
         historyRepository.deleteById(id);
@@ -79,10 +79,10 @@ public class HistoryServiceImpl implements HistoryService{
         return list;
     }
 
-    @Override
-    public Integer getTotalCount(String id, int y, int m, int d) {
-
-        return historyRepository.getCount(id, y, m, d);
-    }
+//    @Override
+//    public Integer getTotalCount(String id, int y, int m, int d) {
+//
+//        return historyRepository.getCount(id, y, m, d);
+//    }
 
 }
