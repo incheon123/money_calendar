@@ -9,18 +9,18 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, HistoryId> {
-    @Query("select max(h.historyId.content_no) " +
-            "from History h " +
-            "where " +
-            "h.historyId.id = :id and " +
-            "h.historyId.year = :year and " +
-            "h.historyId.month = :month and " +
-            "h.historyId.date = :date"
-    )
-    Integer getCount(@Param("id") String id
-            , @Param("year") int year
-            , @Param("month") int month
-            , @Param("date") int date);
+//    @Query("select max(h.historyId.content_no) " +
+//            "from History h " +
+//            "where " +
+//            "h.historyId.id = :id and " +
+//            "h.historyId.year = :year and " +
+//            "h.historyId.month = :month and " +
+//            "h.historyId.date = :date"
+//    )
+//    Integer getCount(@Param("id") String id
+//            , @Param("year") int year
+//            , @Param("month") int month
+//            , @Param("date") int date);
 
     @Query("SELECT h " +
             "FROM History h " +
