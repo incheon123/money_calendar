@@ -19,7 +19,7 @@ public interface HistoryService {
     Boolean saveLimitMoney(LimitMoneyDTO limitMoneyDTO);
     List<HistoryDTO> getHistory(Long rid, int year, int month);
 
-    Integer getTotalCount(String id, int y, int m, int d);
+//    Integer getTotalCount(String id, int y, int m, int d);
 
     default History dtoToEntity(HistoryDTO dto){
 
@@ -28,7 +28,7 @@ public interface HistoryService {
                 .year(dto.getYear())
                 .month(dto.getMonth())
                 .date(dto.getDate())
-                .content_no(dto.getContent_no())
+                .rid(dto.getRid())
                 .build();
 
         History history = History.builder()
@@ -48,8 +48,8 @@ public interface HistoryService {
                 .year(history.getHistoryId().getYear())
                 .month(history.getHistoryId().getMonth())
                 .date(history.getHistoryId().getDate())
-                .content_no(history.getHistoryId().getContent_no())
                 .type(history.getType())
+                .rid(history.getHistoryId().getRid())
                 .money(history.getMoney())
                 .content(history.getContent())
                 .build();
