@@ -95,14 +95,13 @@ export function setHistory(rid){
                     insertHistorys(e);
                     insertHistoryToCalendar(e);
                     bindClickEventOnElement('.actualDate', function (e) {
-                        console.log(roomType);
                         console.log("날짜 클릭")
                             
                         let target_date = e.currentTarget.attributes.value.value;
-                        let obj = dates_obj[target_date];
-                        if (obj !== undefined) {
-                            getSelectedDate(obj);
-                        }
+                        // let obj = dates_obj[target_date];
+                        // if (obj !== undefined) {
+                        //     getSelectedDate(obj);
+                        // }
                     })
                 }
             })
@@ -133,16 +132,21 @@ export function deleteHistorys(obj, deletedInputForm){
         }
     })
 }
-export function saveHistorys(history){ //roomType도 추가해야됨
+export function saveHistorys(history, rid){ //roomType도 추가해야됨
     console.log("saveHistorys........")
+    let requestObj = history.get();
+    requestObj = {...requestObj, rid}
+    console.log(requestObj);
     $.ajax({
-        url: '/money_management/save',
+        url: `/money_management/save/${rid}`,
         cache: false,
-        data: JSON.stringify(history.get()),
+        data: JSON.stringify(requestObj),
         dataType: 'json',
         contentType: 'application/json',
         type: 'post',
         success: function () {
+            //dto를 받으면 달력에 dom을 이용해서 뿌려줌
+            //setHistory()를 호출하는게 아니라...
             history.clear();
             setHistory();
         }
