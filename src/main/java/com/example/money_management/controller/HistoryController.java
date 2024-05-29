@@ -44,53 +44,17 @@ public class HistoryController {
         return result;
     }
 
-    @ResponseBody
-    @PostMapping("/save")
-    public String[] save(@RequestBody HistoryDTO dto){ //HashMap<String, Object> map
-        log.info("save PRIVATE.......... ");
-
-        log.info(dto);
-
-        String id = (String) httpSession.getAttribute("member");
-        System.out.println(dto);
-        Integer content_no = historyService.getTotalCount(id, dto.getYear(), dto.getMonth(), dto.getDate());
-
-        if(content_no == null) content_no = 0;
-        else content_no++;
-
-        dto.setId(id);
-        dto.setContent_no(content_no);
-
-        System.out.println("==================");
-        System.out.println(dto);
-
-        historyService.saveHistory(dto);
-
-        return new String[]{"success"};
-    }
 
     @ResponseBody
     @PostMapping("/save/{rid}")
-    public String[] save(@PathVariable("rid") String rid, @RequestBody HistoryDTO dto){ //HashMap<String, Object> map
-        log.info("save CHATTING.......... ");
-
-        log.info(dto);
-
-        String id = (String) httpSession.getAttribute("member");
-        System.out.println(dto);
-        Integer content_no = historyService.getTotalCount(id, dto.getYear(), dto.getMonth(), dto.getDate());
-
-        if(content_no == null) content_no = 0;
-        else content_no++;
-
-        dto.setId(id);
-        dto.setContent_no(content_no);
-
-        System.out.println("==================");
-        System.out.println(dto);
-
+    public String[] save(@PathVariable("rid") String rid,
+                         @RequestBody HistoryDTO dto,
+                         @SessionAttribute("member") String user_id){ //HashMap<String, Object> map
+        log.info("save Histroy =====> [{}]", dto);
+        dto.setId(user_id);
         historyService.saveHistory(dto);
 
+        //엔티티 200 OK와 dto를 다시 보냄
         return new String[]{"success"};
     }
 
