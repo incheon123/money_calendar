@@ -21,5 +21,6 @@ public class HistoryId implements Serializable {
     private int year;
     private int month;
     private int date;
-    private Long rid;
+    private String rid;
+    private Long content_no;
 }
