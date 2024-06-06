@@ -32,21 +32,27 @@ public class HistoryServiceImpl implements HistoryService{
     }
 
     @Override
-    public void saveHistory(HistoryDTO h) {
-        History history = dtoToEntity(h);
+    public HistoryDTO saveHistory(HistoryDTO h) {
+
+        History history = dtoToEntity(h, getContentNum(h.getRid(), h.getYear(), h.getMonth(), h.getDate()) + 1);
         historyRepository.save(history);
+
+
+        return entityToDTO(history);
+    }
+
+    public HistoryDTO updateHistory(HistoryDTO h){
+        History history = dtoToEntity(h, h.getContent_no());
+        log.info("updateHistory -> [{}]",history);
+        History resulut_history = historyRepository.save(history);
+
+        return entityToDTO(resulut_history);
     }
 
     @Override
     public void deleteHistory(HistoryDTO history) {
 
-        HistoryId id = HistoryId.builder()
-                .id(history.getId())
-                .year(history.getYear())
-                .month(history.getMonth())
-                .date(history.getDate())
-                .rid(history.getRid())
-                .build();
+        HistoryId id = getHistoryId(history, history.getContent_no());
 
         historyRepository.deleteById(id);
     }
@@ -60,6 +66,7 @@ public class HistoryServiceImpl implements HistoryService{
             limitMoneyRepository.save(lm);
             return true;
         }catch (Exception e){
+            log.error("can't save");
             e.printStackTrace();
         }
 
@@ -68,7 +75,7 @@ public class HistoryServiceImpl implements HistoryService{
 
 
     @Override
-    public List<HistoryDTO> getHistory(Long rid, int year, int month) {
+    public List<HistoryDTO> getHistory(String rid, int year, int month) {
         History[] result = historyRepository.getHistory(rid, year, month);
 
         List<HistoryDTO> list = new ArrayList<>();
@@ -79,10 +86,14 @@ public class HistoryServiceImpl implements HistoryService{
         return list;
     }
 
-//    @Override
-//    public Integer getTotalCount(String id, int y, int m, int d) {
-//
-//        return historyRepository.getCount(id, y, m, d);
-//    }
+   @Override
+   public Long getContentNum(String rid, int y, int m, int d) {
+        
+        if(historyRepository.checkHistoryExists(rid, y, m, d) == 0){
+            return 1L;
+        }
+
+        return historyRepository.getCount(rid, y, m, d);
+   }
 
 }
