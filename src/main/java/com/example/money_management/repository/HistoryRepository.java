@@ -9,18 +9,18 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, HistoryId> {
-//    @Query("select max(h.historyId.content_no) " +
-//            "from History h " +
-//            "where " +
-//            "h.historyId.id = :id and " +
-//            "h.historyId.year = :year and " +
-//            "h.historyId.month = :month and " +
-//            "h.historyId.date = :date"
-//    )
-//    Integer getCount(@Param("id") String id
-//            , @Param("year") int year
-//            , @Param("month") int month
-//            , @Param("date") int date);
+   @Query("select max(h.historyId.content_no) " +
+           "from History h " +
+           "where " +
+           "h.historyId.rid = :rid and " +
+           "h.historyId.year = :year and " +
+           "h.historyId.month = :month and " +
+           "h.historyId.date = :date"
+   )
+   Long getCount(@Param("rid") String rid
+           , @Param("year") int year
+           , @Param("month") int month
+           , @Param("date") int date);
 
     @Query("SELECT h " +
             "FROM History h " +
@@ -28,7 +28,30 @@ public interface HistoryRepository extends JpaRepository<History, HistoryId> {
             "h.historyId.year     = :year     AND " +
             "h.historyId.month    = :month "
     )
-    History[] getHistory(@Param("rid") Long rid, @Param("year") int year, @Param("month") int month);
+    History[] getHistory(@Param("rid") String rid, @Param("year") int year, @Param("month") int month);
+
+    /**
+     * 매개변수의 값을 갖고 있는 모든 행을 검색해서 개수를 리턴
+     * @param rid
+     * @param year
+     * @param month
+     * @param date
+     * @return
+     */
+    @Query("select count(h)" +
+           "from History h " +
+           "where " +
+           "h.historyId.rid = :rid and " +
+           "h.historyId.year = :year and " +
+           "h.historyId.month = :month and " +
+           "h.historyId.date = :date"
+    )
+    int checkHistoryExists(
+        @Param("rid") String rid
+        , @Param("year") int year
+        , @Param("month") int month
+        , @Param("date") int date
+    );
 
     @Query("SELECT lm.limit_money " +
             "FROM LimitMoney lm " +
