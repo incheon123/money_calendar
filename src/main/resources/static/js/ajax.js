@@ -1,5 +1,5 @@
-import {empty, emptyActualDate, updateHistoryContainer} from "./module.js";
-import {insertHistorys, insertHistoryToCalendar, setLimitMoney} from "./getHistorys.js";
+import {empty, emptyActualDate, getSelectedDate, updateHistoryContainer} from "./module.js";
+import {updateTotalIncomeAndOutcome, insertHistoryToCalendar, setLimitMoney, updateHistoryObj, showDateHistory, addHistoryObj,deleteHistoryObj} from "./getHistorys.js";
 import {getCurrentDate, bindClickEventOnElement, emptyMoney} from "./calendar.js";
 import {activeModal, closeModal} from "./modal.js";
 /**
@@ -7,7 +7,7 @@ import {activeModal, closeModal} from "./modal.js";
  * @param requestObject
  */
 export function updateHistorys(requestObject){
-    console.log("updateHistorys......")
+    console.log(requestObject)
     $.ajax({
         url: '/money_management/update/historys',
         cache: false,
@@ -15,26 +15,25 @@ export function updateHistorys(requestObject){
         data : JSON.stringify(requestObject),
         dataType: 'json',
         contentType: 'application/json',
-        success: function (e) {
-            // new History().clear();
+        success: function (history) {
+            console.log(history);
             empty($(document.getElementsByClassName("historys_container")[0]));
-            setHistory();
+            updateHistoryObj(history);
         }
     })
 }
 
 
-export function setIndexHistory(){
-    console.log('ajax.js - getHistory index.........');
+export function setMyCalendar(){
+    console.log('ajax.js - setMyCalendar.........');
 
     let result = getLimitMoney();
 
     result.then(
         function(success){
-            console.log(success)
             let current_date = getCurrentDate();
             $.ajax({
-                url: '/money_management/index',
+                url: '/money_management/myCalendar',
                 cache: false,
                 type: 'post',
                 //아이디와 개인방인지 멀티방인지 구분할 수 있는 유니크 값을 같이 보내야 한다
@@ -50,8 +49,6 @@ export function setIndexHistory(){
                     insertHistorys(e);
                     insertHistoryToCalendar(e);
                     bindClickEventOnElement('.actualDate', function (e) {
-                        console.log(roomType);
-                        console.log("날짜 클릭")
 
                         let target_date = e.currentTarget.attributes.value.value;
                         let obj = dates_obj[target_date];
@@ -72,14 +69,12 @@ export function setIndexHistory(){
 
 
 export function setHistory(rid){
-    console.log(rid);
     console.log('ajax.js - getHistory.........');
 
     let result = getLimitMoney(rid);
 
     result.then(
         function(success){
-            console.log(success)
             let current_date = getCurrentDate();
             $.ajax({
                 url: '/money_management/get/historys',
@@ -90,25 +85,22 @@ export function setHistory(rid){
                 data: JSON.stringify({ 
                     year: current_date[0],
                     month: current_date[1],
-                    date: current_date[2],
-                    roomType: rType
+                    rid: rid
                 }),
                 dataType: 'json',
-                contentType: 'application/json',
-                success: function (e) {
+                contentType: 'application/json; charset=UTF-8',
+                success: function (history) {
+                    // console.log(e);
                     emptyActualDate();
-                    insertHistorys(e);
-                    insertHistoryToCalendar(e);
-                    bindClickEventOnElement('.actualDate', function (e) {
-                        console.log(roomType);
-                        console.log("날짜 클릭")
-                            
-                        let target_date = e.currentTarget.attributes.value.value;
-                        let obj = dates_obj[target_date];
-                        if (obj !== undefined) {
-                            getSelectedDate(obj);
-                        }
+                    insertHistoryToCalendar(history);
+                    bindClickEventOnElement('.actualDate', function (event) {
+
+                        let target_date = event.currentTarget.attributes.value.value;
+                        // getSelectedDate(history);
+
+                        showDateHistory(target_date);
                     })
+                    
                 }
             })
         },
@@ -119,37 +111,44 @@ export function setHistory(rid){
     )
 
 }
+
+/**
+ * datesHistoryList에 저장된 기록을 삭제함
+ * @param {*} obj 
+ * @param {*} deletedInputForm 
+ */
 export function deleteHistorys(obj, deletedInputForm){
+    console.log(obj);
     $.ajax({
         url: '/money_management/delete/history',
         cache: false,
         type: 'post',
         dataType: 'json',
         contentType: 'application/json',
-        data: JSON.stringify({
-            year: obj.year,
-            month: obj.month,
-            date: obj.date,
-            content_no: obj.content_no
-        }),
+        data: JSON.stringify(obj),
         success: function (e) {
-            setHistory();
             updateHistoryContainer(deletedInputForm);
+            deleteHistoryObj(obj)
         }
     })
 }
-export function saveHistorys(history){ //roomType도 추가해야됨
+export function saveHistorys(history, rid){ //roomType도 추가해야됨
     console.log("saveHistorys........")
+    let requestObj = history.get();
+    requestObj = {...requestObj, rid}
+
     $.ajax({
-        url: '/money_management/save',
+        url: `/money_management/save/${rid}`,
         cache: false,
-        data: JSON.stringify(history.get()),
+        data: JSON.stringify(requestObj),
         dataType: 'json',
         contentType: 'application/json',
         type: 'post',
-        success: function () {
-            history.clear();
-            setHistory();
+        success: function (history) {
+            //dto를 받으면 달력에 dom을 이용해서 뿌려줌
+            //setHistory()를 호출하는게 아니라...
+            addHistoryObj(history);
+            updateTotalIncomeAndOutcome(history);
         }
     })
 }
@@ -170,7 +169,7 @@ export function saveLimitMoney(money, rid){
             }),
             success: function (e) {
                 closeModal();
-                setHistory();
+                setHistory(rid);
             },
             error: function (e) {
                 console.log('error');
@@ -186,7 +185,8 @@ export function findLimitMoney(success, error, rid){
 
     let limitMoneyId = {
         year: current_date[0],
-        month: current_date[1]
+        month: current_date[1],
+        rid : rid
     };
     if( rid !== -1 ) limitMoneyId = {...limitMoneyId, rid}
     console.log(limitMoneyId);

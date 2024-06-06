@@ -1,6 +1,5 @@
 import { getCurrentDate } from "./calendar.js";
 import { setDate } from "./calendar.js";
-import { makeCalendar } from "./calendar.js";
 import { main } from "./calendar.js"
 
 var target_year     = document.querySelector(".year");
@@ -59,16 +58,16 @@ export function setCalendarTitleDate(ele){
 }
 
 export function setDateToPreMonth(){
-
+    
     setttingDate();
-
+    console.log(month);
     if(1 >= month){
         year -= 1
         month = 12
     }else{
         month -= 1
     }
-
+    console.log(month);
     //달력을 바꿔줌
     setDate(new Date(year, month-1, date));
     main();
@@ -77,7 +76,7 @@ export function setDateToPreMonth(){
 
 export function setDateToNextMonth(){
     setttingDate();
-
+    console.log(month)
     if(12 <= month){
         year += 1
         month = 1

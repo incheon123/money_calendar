@@ -20,7 +20,6 @@ public class HistoryRepositoryTests {
     @Test
     public void insertTests(){
         HistoryId id = HistoryId.builder()
-                .id("opportuntiy13")
                 .year(2024)
                 .month(2)
                 .date(6)
@@ -39,7 +38,7 @@ public class HistoryRepositoryTests {
     @Test
     public void getHistoryTest(){
         Calendar c = Calendar.getInstance();
-        History[] result = repository.getHistory(123L, 2024, 2);
+        History[] result = repository.getHistory("123", 2024, 2);
         System.out.println("============================");
         System.out.println(result[0].getContent());
     }
@@ -58,7 +57,6 @@ public class HistoryRepositoryTests {
                     .year(2024)
                     .month( ((int)(Math.random() * 12)) + 1 )
                     .date( ((int)(Math.random() * 28)) + 1)
-                    .id("opportunity13")
                     .build();
 
             String type = ((int) (Math.random() * 2)) + 1  == 2 ? "income" : "outcome";
@@ -94,6 +92,6 @@ public class HistoryRepositoryTests {
 
     @Test
     public void testMoney(){
-        System.out.println(repository.getLimitMoney(2024, 3, "opportunity13"));
+        System.out.println(repository.getLimitMoney(2024, 3, 123L));
     }
 }

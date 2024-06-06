@@ -20,8 +20,5 @@ public class LimitMoneyId implements Serializable {
 
     private int year;
     private int month;
-    private String id;
-    @Enumerated(EnumType.STRING)
-    private RoomType roomType;
-
+    private Long rid;
 }

@@ -70,7 +70,8 @@ public class LoginController {
                         Model model){
         log.info("login............. POST");
 
-        Member member = memberService.findById(memberDTO);
+        //원래는 준영속상태지만 OSIV가 true이므로 영속상태
+        Member member = memberService.compareIdAndPw(memberDTO);
 
         //member가 null이라면
         if(member == null) {
@@ -78,10 +79,10 @@ public class LoginController {
             redirectAttributes.addFlashAttribute("msg", "no-matching id");
             return "redirect:/money_management/login";
         }
-
+        Long rid = member.getPrivateRoomId();
         model.addAttribute("member", member.getId());
 
-        return "redirect:/money_management/index";
+        return "redirect:/money_management/myCalendar/" + rid;
     }
 
     /**
