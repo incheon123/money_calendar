@@ -1,0 +1,45 @@
+head, body{
+    width: 100%;
+    height: 100%;
+}
+p,input{
+    margin: 0;
+    padding: 0;
+}
+textarea{
+    resize: none;
+    width: 100%;
+    height: 50%;
+}
+.calendar{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+.date-box{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    height: 120%;
+}
+.active{
+    background-color: lightpink;
+}
+.day{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+}
+.input-side{
+    width: 33%;
+}
+.blue{
+    color: blue;
+}
+.red{
+    color: red;
+}
