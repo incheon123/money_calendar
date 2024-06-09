@@ -14,54 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
+    <!-- 이미 static 아래로 리소스 경로가 잡혀있기에 th:prefix가 들어간 키워드를 써줌으로써 경로를 잡아줌 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/room/room.css}">
     <title>money</title>
-    <style>
-        head, body{
-            width: 100%;
-            height: 100%;
-        }
-        p,input{
-            margin: 0;
-            padding: 0;
-        }
-        textarea{
-            resize: none;
-            width: 100%;
-            height: 50%;
-        }
-        .calendar{
-            position: relative;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .date-box{
-            margin: 0;
-            padding: 0;
-        }
-
-        .main{
-            height: 120%;
-        }
-        .active{
-            background-color: lightpink;
-        }
-        .day{
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-        }
-        .input-side{
-            width: 33%;
-        }
-        .blue{
-            color: blue;
-        }
-        .red{
-            color: red;
-        }
-    </style>
 </head>
 <body>
 
@@ -96,6 +51,9 @@
                 <a href="/money_management/statistic" class="my-5 btn">통계</a>
                 <a href="/money_management/lobby" class="my-5 btn">lobby</a>
                 <a href="" class="my-5 btn">1/n 계산</a>
+            </div>
+            <div>
+                채팅창
             </div>
             <!-- main frame -->
             <div th:replace="layout/calendar::calendar">
