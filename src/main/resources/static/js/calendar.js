@@ -42,7 +42,9 @@ export function getCurrentDate(){
         Number(date.getDay())
     ];
 }
-
+function getMonth(){
+    return Number((date.getMonth()+1));
+}
 export function setDate(d){
     date = d;
 }
@@ -135,6 +137,7 @@ function insertDate(){
 
     bindClickEventOnElement('.actualDate', function(e){
         settedDate = e.currentTarget.attributes.value.value;
+        console.log(getMonth())
         changeDate();
 
         //타켓 데이트 변경

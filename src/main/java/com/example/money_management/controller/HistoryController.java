@@ -7,6 +7,7 @@ import com.example.money_management.service.statistic.HistoryStatisticService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -40,71 +41,34 @@ public class HistoryController {
         log.info("getHistorys......... [{}]", dto);
 
         List<HistoryDTO> result = historyService.getHistory(dto.getRid(), dto.getYear(), dto.getMonth());
-
+        
         return result;
     }
 
-    @ResponseBody
-    @PostMapping("/save")
-    public String[] save(@RequestBody HistoryDTO dto){ //HashMap<String, Object> map
-        log.info("save PRIVATE.......... ");
-
-        log.info(dto);
-
-        String id = (String) httpSession.getAttribute("member");
-        System.out.println(dto);
-        Integer content_no = historyService.getTotalCount(id, dto.getYear(), dto.getMonth(), dto.getDate());
-
-        if(content_no == null) content_no = 0;
-        else content_no++;
-
-        dto.setId(id);
-        dto.setContent_no(content_no);
-
-        System.out.println("==================");
-        System.out.println(dto);
-
-        historyService.saveHistory(dto);
-
-        return new String[]{"success"};
-    }
 
     @ResponseBody
     @PostMapping("/save/{rid}")
-    public String[] save(@PathVariable("rid") String rid, @RequestBody HistoryDTO dto){ //HashMap<String, Object> map
-        log.info("save CHATTING.......... ");
+    public ResponseEntity<HistoryDTO> save(@PathVariable("rid") String rid,
+                         @RequestBody HistoryDTO dto,
+                         @SessionAttribute("member") String user_id){ //HashMap<String, Object> map
+        log.info("save Histroy =====> [{}]", dto);
+        dto.setId(user_id);
+        HistoryDTO h = historyService.saveHistory(dto);
 
-        log.info(dto);
-
-        String id = (String) httpSession.getAttribute("member");
-        System.out.println(dto);
-        Integer content_no = historyService.getTotalCount(id, dto.getYear(), dto.getMonth(), dto.getDate());
-
-        if(content_no == null) content_no = 0;
-        else content_no++;
-
-        dto.setId(id);
-        dto.setContent_no(content_no);
-
-        System.out.println("==================");
-        System.out.println(dto);
-
-        historyService.saveHistory(dto);
-
-        return new String[]{"success"};
+        //엔티티 200 OK와 dto를 다시 보냄
+        return ResponseEntity.status(200).body(h);
     }
 
     @PostMapping("/update/historys")
-    public String[] modify(@RequestBody HistoryDTO dto){
+    public ResponseEntity<HistoryDTO> modify(@RequestBody HistoryDTO dto){
         System.out.println("modify......................");
 
         String id = (String) httpSession.getAttribute("member");
         dto.setId(id);
-        System.out.println(dto);
 
-        historyService.saveHistory(dto);
-
-        return new String[]{"success"};
+        HistoryDTO h = historyService.updateHistory(dto);
+        log.info(h);
+        return ResponseEntity.status(200).body(h);
     }
 
     @ResponseBody
@@ -118,10 +82,17 @@ public class HistoryController {
         return new Integer[]{result};
     }
 
+    /**
+     * 1 ~ 12월의 제한 금액을 저장한다
+     * @param limitMoneyDTO
+     * @return
+     */
     @PostMapping("/save/limit_money")
     public String saveLimitMoney(@RequestBody LimitMoneyDTO limitMoneyDTO){
         log.warn("limit_money : [{}]", limitMoneyDTO);
         historyService.saveLimitMoney(limitMoneyDTO);
+
+
         return "success";
     }
 
@@ -130,9 +101,7 @@ public class HistoryController {
     public String[] deleteHistroyById(@RequestBody HistoryDTO dto){
         dto.setId( (String) httpSession.getAttribute("member"));
 
-        log.info("deleteHistoryById....................");
-        log.info(dto);
-
+        log.info("deleteHistoryById.................... [{}]", dto);
         historyService.deleteHistory(dto);
 
         return new String[]{"success"};

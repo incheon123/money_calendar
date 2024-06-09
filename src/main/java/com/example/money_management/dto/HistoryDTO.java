@@ -15,11 +15,11 @@ public class HistoryDTO {
     private int year;
     private int month;
     private int date;
-    private int content_no;
+    private Long content_no;
     private String limit_money;
     private int money;
     private String content;
     private String type;
-    private long rid;
+    private String rid;
     private String roomType;
 }

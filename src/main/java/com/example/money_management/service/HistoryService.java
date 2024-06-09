@@ -6,39 +6,44 @@ import com.example.money_management.entity.History;
 import com.example.money_management.entity.HistoryId;
 import com.example.money_management.entity.LimitMoney;
 import com.example.money_management.entity.LimitMoneyId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface HistoryService {
 
     Integer getLimitMoney(int y, int m, Long rid);
-    void saveHistory(HistoryDTO history);
+    HistoryDTO saveHistory(HistoryDTO history);
+    HistoryDTO updateHistory(HistoryDTO history);
     void deleteHistory(HistoryDTO history);
     Boolean saveLimitMoney(LimitMoneyDTO limitMoneyDTO);
-    List<HistoryDTO> getHistory(Long rid, int year, int month);
+    List<HistoryDTO> getHistory(String rid, int year, int month);
 
-    Integer getTotalCount(String id, int y, int m, int d);
+//    Integer getTotalCount(String id, int y, int m, int d);
 
-    default History dtoToEntity(HistoryDTO dto){
-
-        HistoryId hid = HistoryId.builder()
-                .id(dto.getId())
-                .year(dto.getYear())
-                .month(dto.getMonth())
-                .date(dto.getDate())
-                .content_no(dto.getContent_no())
-                .build();
+    default History dtoToEntity(HistoryDTO dto, Long content_no){
 
         History history = History.builder()
-                .historyId(hid)
+                .historyId(getHistoryId(dto, content_no))
                 .type(dto.getType())
                 .money(dto.getMoney())
                 .content(dto.getContent())
                 .build();
 
         return history;
+    }
+    
+    default HistoryId getHistoryId(HistoryDTO dto, Long content_no)
+    {
+        HistoryId hid = HistoryId.builder()
+                .id(dto.getId())
+                .year(dto.getYear())
+                .month(dto.getMonth())
+                .date(dto.getDate())
+                .rid(dto.getRid())
+                .content_no(content_no)
+                .build();
+        
+        return hid;
     }
 
     default HistoryDTO entityToDTO(History history){
@@ -48,9 +53,10 @@ public interface HistoryService {
                 .year(history.getHistoryId().getYear())
                 .month(history.getHistoryId().getMonth())
                 .date(history.getHistoryId().getDate())
-                .content_no(history.getHistoryId().getContent_no())
                 .type(history.getType())
+                .rid(history.getHistoryId().getRid())
                 .money(history.getMoney())
+                .content_no(history.getHistoryId().getContent_no())
                 .content(history.getContent())
                 .build();
 
@@ -69,4 +75,6 @@ public interface HistoryService {
 
         return lm;
     }
+
+    public Long getContentNum(String rid, int y, int m, int d);
 }
