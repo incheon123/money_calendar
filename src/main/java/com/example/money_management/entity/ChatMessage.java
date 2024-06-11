@@ -15,18 +15,25 @@ import java.util.Date;
 @Builder
 public class ChatMessage {
 
-    @Id @GeneratedValue
-    private Long id;
+    @Id
+    private Long msg_id;
 
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "sender")
     @ManyToOne
     private Member sender;
 
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "receiver")
     @ManyToOne
-    private Room chatRoom;
+    private Room receiver;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date writeDate;
+    private Date createTime;
+
     private String msg;
+    private String type;
+
+    @PrePersist
+    private void createMsgId(){
+
+    }
 }
