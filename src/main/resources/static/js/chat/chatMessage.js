@@ -5,18 +5,24 @@ class Message
     #receiver;
     #msg;
     #type;
+    #isMine;
     #create_date;
 
-    constructor(msg_id, sender, receiver, msg, type, create_date)
+    constructor(msg_id, sender, receiver, msg, type, isMine, create_date)
     {
-        this.#msg_id = msg_id;
-        this.#sender = sender;
-        this.#receiver = receiver;
-        this.#msg = msg;
-        this.#type = type;
+        this.#msg_id      = msg_id;
+        this.#sender      = sender;
+        this.#receiver    = receiver;
+        this.#msg         = msg;
+        this.#type        = type;
+        this.#isMine      = isMine;
         this.#create_date = create_date;
     }
 
+    get isMine()
+    {
+        return this.#isMine;
+    }
     get msg_id()
     {
         return this.#msg_id;
@@ -42,12 +48,4 @@ class Message
         return this.#create_date;
     }
     
-}
-
-/**
- * 메세지를 채팅 박스에 삽입
- */
-function insertMsg()
-{
-
 }
