@@ -3,19 +3,14 @@ package com.example.money_management.entity;
 import com.example.money_management.enumType.RoomType;
 import com.example.money_management.money_interface.Generable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Data
@@ -45,7 +40,7 @@ public class Room extends TimeLog implements Generable, Serializable{
     private List<RoomHistory> roomHistories = new ArrayList<>();
 
     @Column(name = "CHAT_LIST")
-    @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
     private List<ChatMessage> chatList = new ArrayList<>();
 
     //최대인원
