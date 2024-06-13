@@ -9,8 +9,12 @@ let chatMsgList = new Array();
 const chatMsgConfig = {
     "chatOtherMsgBgColor" : "red",
     "chatMyMsgBgColor" : "lightblue",
-    "chatMsgWidth" : "50",
-    "chatMsgHeight" : "20"
+    "chatMyMsgPos" : "right",
+    "chatOtherMsgPos" : "left",
+    "chatMsgHeight" : "40",
+    "chatMsgLineHeight" : "40",
+    "chatMsgClassName" : "chatMsg",
+    "chatMsgBorderRadius" : "10"
 }
 
 
@@ -29,10 +33,20 @@ function createMsgElement(message)
 {
     let msgEle = document.createElement("p");
     msgEle.innerHTML = message.msg;
-    msgEle.style.width = chatMsgConfig.chatMsgWidth + "px";
-    msgEle.style.height = chatMsgConfig.chatMsgHeight + "px";
-    msgEle.style.backgroundColor = message.isMine() === true ? chatMsgConfig.chatMyMsgBgColor
-                                                        : chatMsgConfig.chatOtherMsgBgColor;
+    msgEle.className = chatMsgConfig.chatMsgClassName;
+    msgEle.style.height = chatMsgConfig.chatMsgHeight + "px"
+    msgEle.style.lineHeight = chatMsgConfig.chatMsgLineHeight + "px"
+    msgEle.style.borderRadius = chatMsgConfig.chatMsgBorderRadius + "px"
+
+    if(message.isMine)
+    {
+        msgEle.style.backgroundColor = chatMsgConfig.chatMyMsgBgColor
+        msgEle.style.textAlign = chatMsgConfig.chatMyMsgPos;
+    }else
+    {
+        msgEle.style.backgroundColor = chatMsgConfig.chatOtherMsgBgColor
+        msgEle.style.textAlign = chatMsgConfig.chatOtherMsgPos;
+    }
 
     return msgEle;
 }
@@ -45,3 +59,15 @@ function insertMsgElement(messageEle)
     let msgContainer = document.getElementsByClassName("msg-container")[0];
     msgContainer.append(messageEle);
 }
+
+
+// let msg1 = new Message(111, "a", "roomId#11111111", "테스트 1", "text", true, "06-14");
+// let msg2 = new Message(112, "a", "roomId#11111111", "테스트 2", "text", false, "06-14");
+// let msg3 = new Message(112, "a", "roomId#11111111", "테스트 2", "text", true, "06-14");
+// let msgEle1 = createMsgElement(msg1);
+// let msgEle2 = createMsgElement(msg2);
+// let msgEle3 = createMsgElement(msg3);
+// insertMsgElement(msgEle1)
+// insertMsgElement(msgEle2)
+// insertMsgElement(msgEle3)
+// console.log(msgEle1)
