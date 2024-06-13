@@ -53,8 +53,11 @@
                 <a href="" class="my-5 btn">1/n 계산</a>
             </div>
             <div class="chatting-container container w-25 d-flex flex-column ">
-                <div class="container w-100 h-25 bg-info"></div>
-                <div class="container w-100 h-75 bg-success"></div>
+                <!-- current user container -->
+                <div class="user-container container w-100 h-25 bg-info"></div>
+
+                <!-- chatting msg container -->
+                <div class="msg-container container w-100 h-75 bg-success"></div>
             </div>
             <!-- main frame -->
             <div th:replace="layout/calendar::calendar">
