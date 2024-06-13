@@ -1,4 +1,4 @@
-class Message
+export class Message
 {
     #msg_id;
     #sender;
