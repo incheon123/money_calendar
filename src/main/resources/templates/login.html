@@ -55,11 +55,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </div>
         </form>
     </div>
+
+    <!-- 데이터베이스에서 조회되지 않는 계정일 때 -->
     <script th:inline="javascript">
         if([[${msg}]]){
             alert("no matching id")
         }
     </script>
+
 </div>
 </body>
 </html>

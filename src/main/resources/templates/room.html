@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,7 +17,7 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
     <!-- 이미 static 아래로 리소스 경로가 잡혀있기에 th:prefix가 들어간 키워드를 써줌으로써 경로를 잡아줌 -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/room/room.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/room/room.css}">
     <title>money</title>
 </head>
 <body>
@@ -74,16 +76,13 @@
 <div th:replace="layout/modal::modal"></div>
 
 
-<th:block>
     <th:block th:replace="layout/scripts::sideJs"></th:block>
     <th:block th:replace="layout/scripts::calendarJs"></th:block>
     <th:block th:replace="layout/scripts::dateJs"></th:block>
-    <!-- <th:block th:replace="layout/scripts::indexJs"></th:block> -->
     <th:block th:replace="layout/scripts::modalJs"></th:block>
     <th:block th:replace="layout/scripts::roomJs"></th:block>
     <th:block th:replace="layout/scripts::getHistorysJs"></th:block>
     <th:block th:replace="layout/scripts::chatMessageJs"></th:block>
     <th:block th:replace="layout/scripts::chatConfigJs"></th:block>
-</th:block>
 </body>
 </html>
