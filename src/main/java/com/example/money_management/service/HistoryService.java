@@ -67,6 +67,7 @@ public interface HistoryService {
                 .year(dto.getYear())
                 .month(dto.getMonth())
                 .rid(dto.getRid())
+                .member(dto.getMember())
                 .build();
         LimitMoney lm = LimitMoney.builder()
                 .id(id)

@@ -6,8 +6,11 @@ import com.example.money_management.entity.History;
 import com.example.money_management.entity.Member;
 import com.example.money_management.entity.Room;
 import com.example.money_management.repository.MemberRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -54,14 +57,21 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public Member compareIdAndPw(MemberDTO memberDTO) {
-        Member m = memberRepository.getReferenceById(memberDTO.getOwner());
-        if(m == null) return null;
 
-        if( !(m.getPw().equals(memberDTO.getPw()))) return null;
+        
+        //아이디를 찾든 못찾든 NULL은 아님...
+        Optional<Member> result = memberRepository.findById(memberDTO.getOwner());
+        
+        Member m = null;
+        if(result.isPresent()){
+            m = result.get();
+            if( !(m.getPw().equals(memberDTO.getPw()))) return null;
+            return m;
+        }
 
-
-        return m;
+        return null;
     }
 
 }

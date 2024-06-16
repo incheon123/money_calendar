@@ -88,8 +88,9 @@ public class HistoryController {
      * @return
      */
     @PostMapping("/save/limit_money")
-    public String saveLimitMoney(@RequestBody LimitMoneyDTO limitMoneyDTO){
+    public String saveLimitMoney(@RequestBody LimitMoneyDTO limitMoneyDTO, @SessionAttribute("member") String member){
         log.warn("limit_money : [{}]", limitMoneyDTO);
+        limitMoneyDTO.setMember(member);
         historyService.saveLimitMoney(limitMoneyDTO);
 
 

@@ -1,7 +1,5 @@
 package com.example.money_management.controller;
 
-import java.io.UnsupportedEncodingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,11 +61,8 @@ public class RoomController {
 
 
     @GetMapping("/room/{id}")
-    public String test(@PathVariable("id") String id) throws UnsupportedEncodingException {
-        long rid = (long)Long.parseLong(id);
-        log.info("rid => " + rid);
+    public String showRoomPageString(@PathVariable("id") String id){
         
-
         return "room";
     }
 }

@@ -1,10 +1,4 @@
-import {Message} from "./chatMessage.js";
-
-/**
- * 완성된 채팅 메세지만 넣으십쇼
- * only msgElement
- */
-let chatMsgList = new Array();
+import {Message} from "../chat/chatMessage.js";
 
 const chatMsgConfig = {
     "chatOtherMsgBgColor" : "red",

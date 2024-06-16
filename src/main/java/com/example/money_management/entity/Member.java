@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 @ToString(exclude = {"currentRooms"})
 public class Member extends TimeLog{
 

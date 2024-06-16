@@ -1,6 +1,5 @@
 package com.example.money_management.controller;
 
-import com.example.money_management.annotation.Dto;
 import com.example.money_management.dto.MemberDTO;
 import com.example.money_management.entity.Member;
 import com.example.money_management.entity.Room;
@@ -71,6 +70,7 @@ public class LoginController {
         log.info("login............. POST");
 
         //원래는 준영속상태지만 OSIV가 true이므로 영속상태
+        //컨트롤러단에서는 준영속인데 영속으로 만들어줌(설정파일에서)
         Member member = memberService.compareIdAndPw(memberDTO);
 
         //member가 null이라면

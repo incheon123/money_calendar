@@ -48,12 +48,22 @@ textarea{
 /**
     chatting
 **/
-.msg-container{
+.msg-container, .chatting-container, .msg-box{
     margin: 0;
     padding: 0;
 }
-
+.chatting-container{
+    margin-right: 3px;
+}
 .chatMsg{
     margin-top: 3px;
     margin-bottom: 3px;
+}
+.chat-input{
+    height: 10%;
+}
+
+.msg-box{
+    background-color : lightsalmon;
+    height: 90%;
 }

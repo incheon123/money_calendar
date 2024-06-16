@@ -59,7 +59,13 @@
                 <div class="user-container container w-100 h-25 bg-info"></div>
 
                 <!-- chatting msg container -->
-                <div class="msg-container container w-100 h-75 bg-success"></div>
+                <div class="msg-container container w-100 h-75 bg-success">
+                    <!-- 실질적으로 메시지가 담기는 블락 -->
+                    <div class="msg-box container w-100">
+
+                    </div>
+                    <input type="text" class="chat-input w-100">
+                </div>
             </div>
             <!-- main frame -->
             <div th:replace="layout/calendar::calendar">

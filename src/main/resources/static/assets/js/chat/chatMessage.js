@@ -1,7 +1,15 @@
+/**
+ * 완성된 채팅 메세지만 넣으십쇼
+ * only msgElement
+ */
+let chatMsgList = new Array();
+
+
+
 export class Message
 {
     #msg_id;
-    #sender;
+    #sender; //User object...
     #receiver;
     #msg;
     #type;
